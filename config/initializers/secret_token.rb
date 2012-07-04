@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-RoomBooker::Application.config.secret_token = '0ae4a0f5e715da29aef7a1b407fc17c33e3b3b68c7b540957b7d03f707bb4777148de886b985b9bc77c0d3b3fe5c440781215a71e088c365e83a20f4a0b36a1a'
+RoomBooker::Application.config.secret_token = '232bc6b2dad7ac91c8a60c5675d6a8d92fa0aa45a1a81e4eef68f0873636ed5c21c7a69f513ec287fc4a096fa1a409d11a7822300ae99ae58800e5f8dcc385a3'
