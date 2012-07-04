@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  roomnum: 1
+  name: MyString
+  cname: MyString
+  capacity: 1
+  location: MyString
+
+two:
+  roomnum: 1
+  name: MyString
+  cname: MyString
+  capacity: 1
+  location: MyString

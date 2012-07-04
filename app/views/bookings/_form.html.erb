@@ -1,0 +1,50 @@
+<%= form_for(@booking) do |f| %>
+  <% if @booking.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
+
+      <ul>
+      <% @booking.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_id %><br />
+    <%= f.text_field :user_id %>
+    <%=  %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
+  </div>
+  <div class="field">
+    <%= f.label :invitees %><br />
+    <%= f.text_field :invitees %>
+  </div>
+  <div class="field">
+    <%= f.label :startdate %><br />
+    <%= f.date_select :startdate %>
+  </div>
+  <div class="field">
+    <%= f.label :enddate %><br />
+    <%= f.date_select :enddate %>
+  </div>
+  <div class="field">
+    <%= f.label :starttime %><br />
+    <%= f.time_select :endtime %>
+  </div>
+  <div class="field">
+    <%= f.label :endtime %><br/>
+    <%= f.time_select :endtime %>
+  </div>
+  <div class="field">
+    <%= f.label :recurring %><br/>
+    <%= f.select :recurring, Booking::RECURRING_TYPE, :prompt=> ' Select the recurring type of booking' %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

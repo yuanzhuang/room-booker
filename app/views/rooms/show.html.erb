@@ -1,0 +1,68 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Roomnum:</b>
+  <%= @room.roomnum %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @room.name %>
+</p>
+
+<p>
+  <b>Cname:</b>
+  <%= @room.cname %>
+</p>
+
+<p>
+  <b>Capacity:</b>
+  <%= @room.capacity %>
+</p>
+
+<p>
+  <b>Location:</b>
+  <%= @room.location %>
+</p>
+
+<p>
+  <b></b>
+</p>
+
+<table>
+  <tr>
+    <th>Organizer</th>
+    <th>Description</th>
+    <th>invitees</th>
+    <th>start-date</th>
+    <th>end-date</th>
+    <th>start-time</th>
+    <th>end-time</th>
+    <th>recurring</th>
+    <th>boid</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @bookings.each do |booking| %>
+  <tr>
+    <td><%= booking.user_id %></td>
+    <td><%= booking.description %></td>
+    <td><%= booking.invitees %></td>
+    <td><%= booking.startdate %></td>
+    <td><%= booking.enddate %></td>
+    <td><%= booking.starttime %></td>
+    <td><%= booking.endtime %></td>
+    <td><%= booking.recurring %></td>
+    <td><%= booking.boid %></td>
+
+    <td><%= link_to "Edit", edit_booking_path(booking)%></td>
+
+  </tr>
+<% end %>
+
+</table>
+
+<%= link_to 'Book', new_booking_path(:roomid => @room.id) %>  |
+
+<%= link_to 'Back', rooms_path %>

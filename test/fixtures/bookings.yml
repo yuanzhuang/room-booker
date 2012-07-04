@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  room: 
+  user: 
+  description: MyString
+  invitees: MyString
+  startdate: 2012-06-27
+  enddate: 2012-06-27
+  starttime: 2012-06-27 18:30:23
+  endtime: 2012-06-27 18:30:23
+  recurring: MyString
+
+two:
+  room: 
+  user: 
+  description: MyString
+  invitees: MyString
+  startdate: 2012-06-27
+  enddate: 2012-06-27
+  starttime: 2012-06-27 18:30:23
+  endtime: 2012-06-27 18:30:23
+  recurring: MyString
