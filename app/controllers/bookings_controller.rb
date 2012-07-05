@@ -59,7 +59,7 @@ class BookingsController < ApplicationController
 
     respond_to do |format|
       if @booking.save
-        format.html { redirect_to "/rooms/",:id=> @room.id , notice: 'Booking was successfully created.' }
+        format.html { redirect_to :action=>'show',:id=> @room.id ,:controller=>"rooms", notice: 'Booking was successfully created.' }
         format.json { render json: @booking, status: :created, location: @booking }
       else
         format.html { render action: "new" }
