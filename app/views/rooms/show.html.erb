@@ -57,7 +57,7 @@
     <td><%= booking.recurring %></td>
     <td><%= booking.guid %></td>
 
-    <td><%= link_to "Edit", edit_booking_path(booking)%></td>
+    <td><%= link_to "Edit", :action=>"edit", :id=> booking.id, :controller => "bookings" ,:roomid => @room.id %></td>
 
   </tr>
 <% end %>

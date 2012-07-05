@@ -36,6 +36,11 @@ class BookingsController < ApplicationController
   # GET /bookings/1/edit
   def edit
     @booking = Booking.find(params[:id])
+    @room =  Room.find(params[:roomid])
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @booking }
+    end
   end
 
   # POST /bookings
@@ -60,10 +65,11 @@ class BookingsController < ApplicationController
     respond_to do |format|
       if @booking.save
         #cookies[:username]= params[:username]
-        if cookies[:username]
+        if cookies[:use_rname]
           # do nothing
         else
-          cookies[:username] = params[:username]
+          cookies[:user_name] = params[:username]
+          cookies[:expires] = 1.years.from_now.utc
         end
         format.html { redirect_to :action=>'show',:id=> @room.id ,:controller=>"rooms", notice: 'Booking was successfully created.' }
         format.json { render json: @booking, status: :created, location: @booking }
