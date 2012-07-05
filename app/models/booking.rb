@@ -1,6 +1,6 @@
 class Booking < ActiveRecord::Base
 
-  RECURRING_TYPE = ["NO_RECURRING","DAILY","WEEKLY","BI_MONTHLY"]
+  RECURRING_TYPE = ["NO_RECURRING","DAILY","WEEKLY","BI_WEEKLY"]
 
   belongs_to :room
   belongs_to :user
