@@ -46,7 +46,8 @@
 
 <% @bookings.each do |booking| %>
   <tr>
-    <td><%= booking.user_id %></td>
+    <% @user = User.find_by_id(booking.user_id) %>
+    <td><%= @user.username %></td>
     <td><%= booking.description %></td>
     <td><%= booking.invitees %></td>
     <td><%= booking.startdate %></td>
