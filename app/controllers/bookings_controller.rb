@@ -42,7 +42,7 @@ class BookingsController < ApplicationController
   # POST /bookings.json
   def create
     @booking_userid = User.find_by_username(params[:username])
-    @boid = params[:username]
+    @guid = params[:username]
     @booking = Booking.new()
     @booking.user_id= @booking_userid
     @room = Room.find_by_name(params[:roomname])
@@ -55,7 +55,7 @@ class BookingsController < ApplicationController
     @booking.starttime= Time::new(params[:starttime]["(1i)"].to_i,params[:starttime]["(2i)"].to_i,params[:starttime]["(3i)"].to_i,params[:starttime]["(4i)"].to_i,params[:starttime]["(5i)"].to_i )
     @booking.endtime= Time::new(params[:endtime]["(1i)"].to_i,params[:endtime]["(2i)"].to_i,params[:endtime]["(3i)"].to_i,params[:endtime]["(4i)"].to_i,params[:endtime]["(5i)"].to_i )
     @booking.recurring= params[:recurring]
-    @booking.boid= @boid
+    @booking.guid= @guid
 
     respond_to do |format|
       if @booking.save
