@@ -41,7 +41,7 @@ class BookingsController < ApplicationController
   # POST /bookings
   # POST /bookings.json
   def create
-    @booking_userid = User.find_by_username(params[:username])
+    @booking_userid = User.find_by_username(params[:username]).id
     @guid = params[:username]
     @booking = Booking.new()
     @booking.user_id= @booking_userid
@@ -59,6 +59,12 @@ class BookingsController < ApplicationController
 
     respond_to do |format|
       if @booking.save
+        #cookies[:username]= params[:username]
+        if cookies[:username]
+          # do nothing
+        else
+          cookies[:username] = params[:username]
+        end
         format.html { redirect_to :action=>'show',:id=> @room.id ,:controller=>"rooms", notice: 'Booking was successfully created.' }
         format.json { render json: @booking, status: :created, location: @booking }
       else
