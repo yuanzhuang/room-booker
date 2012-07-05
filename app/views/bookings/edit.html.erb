@@ -1,5 +1,11 @@
 <h1>Editing booking</h1>
 
+<%
+    @cookies_info = cookies[:user_name]
+%>
+
+<%=  @cookies_info %>
+
 <%= render 'form3' %>
 
 <%= link_to 'Back', rooms_path %>
