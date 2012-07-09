@@ -13,23 +13,23 @@
     </p>
     <p>
       <label for="startdate">Start Date</label>
-      <%= date_select :startdate,  params[:startdate], :order=>[:year,:month,:day]%>
+      <%= date_select :booking,  "startdate", :order=>[:year,:month,:day]%>
     </p>
     <p>
       <label for="enddate">End Date</label>
-      <%= date_select :enddate, params[:enddate],:order=>[:year,:month,:day]%>
+      <%= date_select :booking, "enddate",:order=>[:year,:month,:day]%>
     </p>
     <p>
       <label for="starttime">Start Time</label>
-      <%= time_select :starttime, params[:starttime] %>
+      <%= time_select :booking, "starttime" %>
     </p>
     <p>
       <label for="endtime">End Time</label>
-      <%= time_select :endtime, params[:endtime] %>
+      <%= time_select :booking, "endtime" %>
     </p>
     <p>
       <label for="recurring">Recurring</label>
-      <%= select :recurring , params[:recurring] ,Booking::RECURRING_TYPE %>
+      <%= select :booking , "recurring" ,Booking::RECURRING_TYPE %>
     </p>
     <%= hidden_field_tag(:roomname, @room.name) %>
     <p>

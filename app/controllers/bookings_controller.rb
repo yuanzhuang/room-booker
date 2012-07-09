@@ -47,20 +47,18 @@ class BookingsController < ApplicationController
   # POST /bookings.json
   def create
     @booking_userid = User.find_by_username(params[:username]).id
-    @guid = params[:username]
-    @booking = Booking.new()
-    @booking.user_id= @booking_userid
     @room = Room.find_by_name(params[:roomname])
-    @booking.room_id= @room.id
+    @booking_roomid = @room.id
+    @guid = params[:username]
+
+    @booking = Booking.new(params[:booking])
+
+    @booking.user_id= @booking_userid
+    @booking.room_id= @booking_roomid
+    @booking.guid= @guid
+
     @booking.description= params[:description]
     @booking.invitees= params[:invitees]
-    @startdate = Date::new(params[:startdate]["(1i)"].to_i,params[:startdate]["(2i)"].to_i,params[:startdate]["(3i)"].to_i)
-    @booking.startdate= @startdate
-    @booking.enddate= Date::new(params[:enddate]["(1i)"].to_i,params[:enddate]["(2i)"].to_i,params[:enddate]["(3i)"].to_i)
-    @booking.starttime= Time::new(params[:starttime]["(1i)"].to_i,params[:starttime]["(2i)"].to_i,params[:starttime]["(3i)"].to_i,params[:starttime]["(4i)"].to_i,params[:starttime]["(5i)"].to_i )
-    @booking.endtime= Time::new(params[:endtime]["(1i)"].to_i,params[:endtime]["(2i)"].to_i,params[:endtime]["(3i)"].to_i,params[:endtime]["(4i)"].to_i,params[:endtime]["(5i)"].to_i )
-    @booking.recurring= params[:recurring]
-    @booking.guid= @guid
 
     respond_to do |format|
       if @booking.save
@@ -83,11 +81,15 @@ class BookingsController < ApplicationController
   # PUT /bookings/1
   # PUT /bookings/1.json
   def update
+
     @booking = Booking.find(params[:id])
 
+    @room = Room.find_by_id(@booking.room_id)
+
     respond_to do |format|
-      if @booking.update_attributes(params[:booking])
-        format.html { redirect_to @booking, notice: 'Booking was successfully updated.' }
+      if @booking.update_attributes(params[:booking].merge!({:description=>params[:description],:invitees=>params[:invitees]}))
+
+        format.html { redirect_to :action=>"show", :id=>@room.id, :controller=>"rooms", notice: "Booking was successfully updated."}
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
