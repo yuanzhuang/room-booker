@@ -37,10 +37,19 @@ class BookingsController < ApplicationController
   def edit
     @booking = Booking.find(params[:id])
     @room =  Room.find(params[:roomid])
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @booking }
+
+    @user_cookie = User.find(@booking.user_id).username
+    puts cookies[:user_name]
+    puts @user_cookie
+    if( cookies[:user_name] != @user_cookie)
+      redirect_to("/error")
+    else
+      respond_to do |format|
+        format.html # new.html.erb
+        format.json { render json: @booking }
+      end
     end
+
   end
 
   # POST /bookings
@@ -63,7 +72,7 @@ class BookingsController < ApplicationController
     respond_to do |format|
       if @booking.save
         #cookies[:username]= params[:username]
-        if cookies[:use_rname]
+        if cookies[:user_name]
           # do nothing
         else
           cookies[:user_name] = params[:username]
