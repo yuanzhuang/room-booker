@@ -7,6 +7,7 @@ gem 'rails', '3.2.6'
 
 gem 'pg'
 
+gem 'jquery-rails'
 gem 'execjs'
 gem 'therubyracer'
 

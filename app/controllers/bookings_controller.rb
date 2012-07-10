@@ -39,8 +39,8 @@ class BookingsController < ApplicationController
     @room =  Room.find(params[:roomid])
 
     @user_cookie = User.find(@booking.user_id).username
-    puts cookies[:user_name]
-    puts @user_cookie
+    #puts cookies[:user_name]
+    #puts @user_cookie
     if( cookies[:user_name] != @user_cookie)
       redirect_to("/error")
     else
@@ -111,11 +111,21 @@ class BookingsController < ApplicationController
   # DELETE /bookings/1.json
   def destroy
     @booking = Booking.find(params[:id])
-    @booking.destroy
+    @room = Room.find_by_id(@booking.room_id)
+    @user_cookie = User.find(@booking.user_id).username
 
-    respond_to do |format|
-      format.html { redirect_to bookings_url }
-      format.json { head :no_content }
+    if cookies[:user_name] != @user_cookie
+       redirect_to("/error")
+    else
+      @booking.destroy
+
+      respond_to do |format|
+        #format.html { redirect_to bookings_url }
+        format.html {redirect_to :action=>"show", :id=>@room.id, :controller=>"rooms"}
+        format.json { head :no_content }
+      end
     end
+
+
   end
 end

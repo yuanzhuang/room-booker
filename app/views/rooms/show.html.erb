@@ -1,6 +1,10 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <%= "Cookies = "+ cookies[:user_name] %>
+</p>
+
+<p>
   <b>Roomnum:</b>
   <%= @room.roomnum %>
 </p>
@@ -58,7 +62,7 @@
     <td><%= booking.guid %></td>
 
     <td><%= link_to "Edit", :action=>"edit", :id=> booking.id, :controller => "bookings" ,:roomid => @room.id %></td>
-
+    <td><%= button_to("Delete", {:action=>"destroy", :controller => "bookings", :id=>booking.id, :roomid=>@room.id}, :method=>:delete, :confirm=>"Are you sure?") %></td>
   </tr>
 <% end %>
 

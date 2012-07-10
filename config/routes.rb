@@ -15,7 +15,7 @@ RoomBooker::Application.routes.draw do
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
-  resources :bookings, :except=>[:index, :destroy, :show ]
+  resources :bookings, :except=>[:index, :show ]
   resources :rooms, :except=>[ :edit, :destroy, :new, :create, :update ]
 
 
