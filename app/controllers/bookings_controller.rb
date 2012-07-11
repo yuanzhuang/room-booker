@@ -1,5 +1,8 @@
 
 class BookingsController < ApplicationController
+
+  include BookingsHelper
+
   # GET /bookings
   # GET /bookings.json
   def index
@@ -38,6 +41,9 @@ class BookingsController < ApplicationController
     @booking = Booking.find(params[:id])
     @room =  Room.find(params[:roomid])
 
+    @year = 2012
+    @month =   7
+
     @user_cookie = User.find(@booking.user_id).username
     #puts cookies[:user_name]
     #puts @user_cookie
@@ -69,6 +75,11 @@ class BookingsController < ApplicationController
     @booking.description= params[:description]
     @booking.invitees= params[:invitees]
 
+    if check_conflicts @booking
+      redirect_to "/error"
+      return
+    end
+
     respond_to do |format|
       if @booking.save
         #cookies[:username]= params[:username]
@@ -96,7 +107,7 @@ class BookingsController < ApplicationController
     @room = Room.find_by_id(@booking.room_id)
 
     respond_to do |format|
-      if @booking.update_attributes(params[:booking].merge!({:description=>params[:description],:invitees=>params[:invitees]}))
+      if @booking.update_attributes(params[:booking].merge!({:description=>params[:description],:invitees=>params[:invitees],:recurring=>params[:recurring]}))
 
         format.html { redirect_to :action=>"show", :id=>@room.id, :controller=>"rooms", notice: "Booking was successfully updated."}
         format.json { head :no_content }

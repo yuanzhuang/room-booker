@@ -1,38 +1,68 @@
-<%= form_tag :action => :create  do %>
+<% require 'calendar_helper' %>
+
+<%= form_tag({:action=> :update },:method=>:put)  do %>
     <p>
       <label for="username">User</label>
-      <%= text_field_tag :username, params[:username] %>
+      <% @user = User.find_by_id(@booking.user_id)%>
+      <%= text_field_tag :username, @user.username, :disabled=>true %>
     </p>
     <p>
       <label for="description">Description</label>
-      <%= text_field_tag :description, params[:description] %>
+      <%= text_field_tag :description, @booking.description %>
     </p>
     <p>
       <label for="invitees">Invitees</label>
-      <%= text_field_tag :invitees, params[:invitees] %>
+      <%= text_field_tag :invitees, @booking.invitees %>
     </p>
+
+
     <p>
       <label for="startdate">Start Date</label>
-      <%= date_select :startdate,  params[:startdate], :order=>[:year,:month,:day]%>
+      <%= date_select "booking", "startdate", :order=>[:year,:month,:day]%>
     </p>
     <p>
       <label for="enddate">End Date</label>
-      <%= date_select :enddate, params[:enddate],:order=>[:year,:month,:day]%>
+      <%= date_select "booking", "enddate", :order=>[:year,:month,:day]%>
     </p>
+
+
+    <p>
+      <%= calendar(:year => @year, :month=>@month, :first_day_of_week => 0).html_safe
+      %>
+    </p>
+
+
     <p>
       <label for="starttime">Start Time</label>
-      <%= time_select :starttime, params[:starttime] %>
+      <%= time_select "booking", "starttime" %>
     </p>
     <p>
       <label for="endtime">End Time</label>
-      <%= time_select :endtime, params[:endtime] %>
+      <%= time_select "booking", "endtime" %>
+    </p>
+
+    <p>
+      <label for="recurring">Recurring Type</label>    <br/>
+      <%= radio_button_tag 'recurring',  Booking::RECURRING_TYPE[0], true, :class=> "recurring_type" %> NO_RECURRING
+      <%= radio_button_tag 'recurring',   Booking::RECURRING_TYPE[1], true, :class=> "recurring_type" %> DAILY
+      <%= radio_button_tag 'recurring',   Booking::RECURRING_TYPE[2], true, :class=> "recurring_type"  %> WEEKLY
+      <%= radio_button_tag 'recurring',  Booking::RECURRING_TYPE[3], true,:class=> "recurring_type"  %> BI-WEEKLY  <br/>
     </p>
     <p>
-      <label for="recurring">Recurring</label>
-      <%= select :recurring , params[:recurring] ,Booking::RECURRING_TYPE %>
+      <label for="recurring">Recurring Day</label>    <br/>
+      <%= check_box_tag 'recurringday', Booking::RECURRING_DAY[0],false, :class=>'recurring_day' %> Mon.
+      <%= check_box_tag 'recurringday', Booking::RECURRING_DAY[1],false, :class=>'recurring_day' %> Tue.
+      <%= check_box_tag 'recurringday', Booking::RECURRING_DAY[2],false, :class=>'recurring_day' %> Wed.
+      <%= check_box_tag 'recurringday', Booking::RECURRING_DAY[3],false, :class=>'recurring_day' %> Thu.
+      <%= check_box_tag 'recurringday', Booking::RECURRING_DAY[4],false, :class=>'recurring_day' %> Fri.
+      <%= check_box_tag 'recurringday', Booking::RECURRING_DAY[5],false, :class=>'recurring_day' %> Sat.
+      <%= check_box_tag 'recurringday', Booking::RECURRING_DAY[6],false, :class=>'recurring_day' %> Sun. <br/>
     </p>
+
+
     <%= hidden_field_tag(:roomname, @room.name) %>
     <p>
-      <%= submit_tag("Booking") %>
+      <%= submit_tag("Update") %>
     </p>
 <% end %>
+
