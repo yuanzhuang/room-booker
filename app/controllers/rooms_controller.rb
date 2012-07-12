@@ -1,7 +1,7 @@
 class RoomsController < ApplicationController
   # To change this template use File | Settings | File Templates.
   def index
-    @rooms = Room.all
+    @rooms = Room.all.sort { |a,b| a.capacity <=> b.capacity }
 
     respond_to do |format|
       format.html
