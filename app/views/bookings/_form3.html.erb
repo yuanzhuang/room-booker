@@ -25,20 +25,20 @@
       <%= date_select "booking", "enddate", :order=>[:year,:month,:day]%>
     </p>
 
-
+    <!--
     <p>
       <%= calendar(:year => @year, :month=>@month, :first_day_of_week => 0).html_safe
       %>
     </p>
-
+    -->
 
     <p>
       <label for="starttime">Start Time</label>
-      <%= time_select "booking", "starttime" %>
+      <%= time_select "booking", "starttime",{:minute_step => 30} %>
     </p>
     <p>
       <label for="endtime">End Time</label>
-      <%= time_select "booking", "endtime" %>
+      <%= time_select "booking", "endtime",{:minute_step => 30} %>
     </p>
 
     <p>
@@ -50,13 +50,13 @@
     </p>
     <p>
       <label for="recurring">Recurring Day</label>    <br/>
-      <%= check_box_tag 'recurringday', Booking::RECURRING_DAY[0],false, :class=>'recurring_day' %> Mon.
-      <%= check_box_tag 'recurringday', Booking::RECURRING_DAY[1],false, :class=>'recurring_day' %> Tue.
-      <%= check_box_tag 'recurringday', Booking::RECURRING_DAY[2],false, :class=>'recurring_day' %> Wed.
-      <%= check_box_tag 'recurringday', Booking::RECURRING_DAY[3],false, :class=>'recurring_day' %> Thu.
-      <%= check_box_tag 'recurringday', Booking::RECURRING_DAY[4],false, :class=>'recurring_day' %> Fri.
-      <%= check_box_tag 'recurringday', Booking::RECURRING_DAY[5],false, :class=>'recurring_day' %> Sat.
-      <%= check_box_tag 'recurringday', Booking::RECURRING_DAY[6],false, :class=>'recurring_day' %> Sun. <br/>
+      <%= check_box_tag 'recurringday1', Booking::RECURRING_DAY[0],false, :class=>'recurring_day' %> Mon.
+      <%= check_box_tag 'recurringday2', Booking::RECURRING_DAY[1],false, :class=>'recurring_day' %> Tue.
+      <%= check_box_tag 'recurringday3', Booking::RECURRING_DAY[2],false, :class=>'recurring_day' %> Wed.
+      <%= check_box_tag 'recurringday4', Booking::RECURRING_DAY[3],false, :class=>'recurring_day' %> Thu.
+      <%= check_box_tag 'recurringday5', Booking::RECURRING_DAY[4],false, :class=>'recurring_day' %> Fri.
+      <%= check_box_tag 'recurringday6', Booking::RECURRING_DAY[5],false, :class=>'recurring_day' %> Sat.
+      <%= check_box_tag 'recurringday7', Booking::RECURRING_DAY[6],false, :class=>'recurring_day' %> Sun. <br/>
     </p>
 
 

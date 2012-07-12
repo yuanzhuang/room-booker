@@ -4,15 +4,22 @@ module BookingsHelper
   # single day
   def split_booking (date, days)
 
+    logger.info '============ in split booking ==============='
+    logger.info days.inspect
+
+
     return_dates = Array.new
 
-    if days.size = 0
-      return_dates.append date
+
+    if days.size == 0
+      return_dates << date
     end
 
-    date_week_day = date.days_to_week_start
+    date_week_day = date.days_to_week_start    # 0-6
 
     days.each do |day|
+
+      logger.info "date_week_day is #{day}"
 
       if day < date_week_day
 
@@ -23,9 +30,11 @@ module BookingsHelper
           tempdate = tempdate.tomorrow
         end
 
+        return_dates << tempdate
+
       elsif day == date_week_day
 
-        return_dates.append date
+        return_dates << date
 
       elsif day > date_week_day
 
@@ -34,11 +43,16 @@ module BookingsHelper
         interval.times do
           tempdate = tempdate.tomorrow
         end
-        return_dates.append tempdate
+        return_dates << tempdate
       end
 
     end
 
+
+    logger.info return_dates.inspect
+
+
+    logger.info "============== exit ===================="
     return return_dates
 
   end
@@ -55,7 +69,12 @@ module BookingsHelper
   end
 
   def select_risk_bookings_pre(candidate_booking)
-     bookings = Booking.all
+    logger.info "============== in select risk bookign pre =============="
+     bookings = Booking.find_all_by_room_id(candidate_booking.room_id)
+
+     if bookings.nil?
+       bookings = []
+     end
 
      risk_bookings = Array.new
 
@@ -63,21 +82,31 @@ module BookingsHelper
 
        if booking.guid != candidate_booking.guid
          if (compare_date(booking.startdate, candidate_booking.startdate) <= 0) and (compare_date(booking.enddate,candidate_booking.enddate)>=0)
-           risk_bookings.append booking
+           logger.info 1
+           risk_bookings <<  booking
          elsif (compare_date(booking.startdate,candidate_booking.startdate) <=0) and (compare_date(booking.enddate,candidate_booking.startdate)>=0) and (compare_date(booking.enddate,candidate_booking.enddate)<=0)
-           risk_bookings.append booking
+           logger.info 2
+           risk_bookings <<  booking
          elsif (compare_date(booking.startdate,candidate_booking.startdate) >=0 )and (compare_date(booking.startdate, candidate_booking.enddate)>=0) and (compare_date(booking.enddate, candidate_booking.enddate)>=0)
-           risk_bookings.append booking
+           logger.info 3
+           risk_bookings <<  booking
          elsif (compare_date(booking.startdate,candidate_booking.startdate) >=0) and (compare_date(booking.enddate, candidate_booking.enddate)<=0)
-           risk_bookings.append booking
+           logger.info 4
+           risk_bookings <<  booking
          end
        end
      end
+
+    logger.info risk_bookings.inspect
+
+    logger.info " ============== exit ================"
     return risk_bookings
 
   end
 
   def select_risk_bookings(candidate_booking, bookings)
+
+    logger.info "================== enter select_risk_bookings ====================="
 
     risk_bookings = Array.new
 
@@ -88,16 +117,22 @@ module BookingsHelper
       #candidate_bits = build_day_bits(candidate_booking,booking)
 
       if bits & candidate_bits
-        risk_bookings.append booking
+        logger.info "============ #{bits & candidate_bits}"
+        risk_bookings <<  booking
       end
 
     end
+
+    logger.info "The risk bookings is "+risk_bookings.inspect
+
+    logger.info " ============================ exit ================================="
 
     return risk_bookings
 
   end
 
   def build_day_bits2(booking)
+    logger.info " ========================enter build_day_bits2 ==========================="
     duration_days = booking.enddate - booking.startdate + 1
     duration_times = 1
     duration_intervals = 1
@@ -118,10 +153,14 @@ module BookingsHelper
     day_bits = 1
     mirror_bits = day_bits
 
+    duration_times = duration_times.round 0
+
     duration_times.times do
       mirror_bits = mirror_bits << duration_intervals
       day_bits = day_bits | mirror_bits
     end
+
+    logger.info "=================================exit======================================"
 
     return day_bits
 
@@ -155,23 +194,29 @@ module BookingsHelper
 
     hours = hours << ( (24-starthour)*2 -1 )
 
-    if startmin < 30
+    if startmin >= 30
       hours = hours >> 1
     end
 
     duration = 0
+
+
     if endmin > startmin
       duration = 1
-    elsif endmin = startmin
+    elsif endmin == startmin
       duration = 0
     elsif endmin < startmin
       duration = -1
     end
 
+    if endhour == starthour
+      return hours
+    end
+
     duration = duration + 2*(endhour - starthour)
 
     if duration < 0
-      return 0
+      return hours
     end
 
 
@@ -187,15 +232,25 @@ module BookingsHelper
 
   def select_risk_times(candidate_booking, bookings)
 
+    logger.info "====================== enter select risk times ======================="
+
     candidate_bits = build_hour_bits( candidate_booking)
+
+
 
     bookings.each do |booking|
       bits = build_hour_bits booking
-      if bits & candidate_bits
+      if bits & candidate_bits != 0
+
+        logger.info " ===> #{bits}"
+        logger.info " ===> #{candidate_bits}"
+        logger.info " ===> #{bits & candidate_bits}"
+        logger.info " ================================ exit1 ====================================="
         return true
       end
     end
 
+    logger.info "======================exit2 ============================================"
 
     return false
 

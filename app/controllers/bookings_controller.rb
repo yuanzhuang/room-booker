@@ -75,8 +75,61 @@ class BookingsController < ApplicationController
     @booking.description= params[:description]
     @booking.invitees= params[:invitees]
 
+    @booking.recurring = params[:recurring]
+
+    @recurringdays = Array.new
+
+
+
+    if !params[:recurringday1].nil?
+       @recurringdays <<  0
+    end
+
+    if !params[:recurringday2].nil?
+      @recurringdays << 1
+    end
+
+    if !params[:recurringday3].nil?
+      @recurringdays << 2
+    end
+
+    if !params[:recurringday4].nil?
+      @recurringdays << 3
+    end
+
+    if !params[:recurringday5].nil?
+      @recurringdays << 4
+    end
+
+    if !params[:recurringday6].nil?
+      @recurringdays << 5
+    end
+
+    if !params[:recurringday7].nil?
+      @recurringdays << 6
+    end
+
+    logger.info '============================'
+    logger.info params[:recurringday1]
+    logger.info params[:recurringday2]
+    logger.info params[:recurringday3]
+    logger.info params[:recurringday4]
+    logger.info params[:recurringday5]
+    logger.info params[:recurringday6]
+    logger.info params[:recurringday7]
+
+    logger.info @recurringdays.inspect
+    logger.info '============================'
+
+    dates = split_booking( @booking.startdate ,@recurringdays)
+    dates.each do |date|
+
+    end
+
+
+
     if check_conflicts @booking
-      redirect_to "/error"
+      redirect_to "/conflicterror"
       return
     end
 
