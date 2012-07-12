@@ -68,6 +68,7 @@ class BookingsController < ApplicationController
 
     @booking = Booking.new(params[:booking])
 
+
     @booking.user_id= @booking_userid
     @booking.room_id= @booking_roomid
     @booking.guid= @guid
@@ -122,8 +123,34 @@ class BookingsController < ApplicationController
     logger.info '============================'
 
     dates = split_booking( @booking.startdate ,@recurringdays)
+
+    flag = 0
+
+    # save all splited booking
     dates.each do |date|
 
+      newbooking = Booking.new(params[:booking])
+      newbooking.user_id = @booking_userid
+      newbooking.room_id = @booking_roomid
+      newbooking.guid = @guid
+      newbooking.description= params[:description]
+      newbooking.invitees= params[:invitees]
+      newbooking.recurring =  params[:recurring]
+
+      newbooking.startdate = date
+
+      if newbooking.save
+        flag = flag + 1
+        if cookies[:user_name]
+          # do nothing
+        else
+          cookies[:user_name] = params[:username]
+          cookies[:expires] = 1.years.from_now.utc
+        end
+      else
+        # need error handler
+        logger.info "Error"
+      end
     end
 
 
@@ -134,14 +161,7 @@ class BookingsController < ApplicationController
     end
 
     respond_to do |format|
-      if @booking.save
-        #cookies[:username]= params[:username]
-        if cookies[:user_name]
-          # do nothing
-        else
-          cookies[:user_name] = params[:username]
-          cookies[:expires] = 1.years.from_now.utc
-        end
+      if flag == dates.size
         format.html { redirect_to :action=>'show',:id=> @room.id ,:controller=>"rooms", notice: 'Booking was successfully created.' }
         format.json { render json: @booking, status: :created, location: @booking }
       else
