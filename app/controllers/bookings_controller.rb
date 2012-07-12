@@ -64,7 +64,7 @@ class BookingsController < ApplicationController
     @booking_userid = User.find_by_username(params[:username]).id
     @room = Room.find_by_name(params[:roomname])
     @booking_roomid = @room.id
-    @guid = params[:username]
+    @guid = params[:username] +"!" +Time.now.to_i.to_s
 
     @booking = Booking.new(params[:booking])
 
