@@ -1,25 +1,23 @@
 <h1>Listing rooms</h1>
 
-<table>
+<table border="1" align="left" cellspacing="1" cellpadding="6">
   <tr>
     <th>Roomnum</th>
     <th>Name</th>
     <th>Cname</th>
     <th>Capacity</th>
     <th>Location</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Details</th>
   </tr>
 
 <% @rooms.each do |room| %>
   <tr>
-    <td><%= room.roomnum %></td>
-    <td><%= room.name %></td>
-    <td><%= room.cname %></td>
-    <td><%= room.capacity %></td>
-    <td><%= room.location %></td>
-    <td><%= link_to 'Details', room %></td>
+    <td align="center"><%= room.roomnum %></td>
+    <td align="center"><%= room.name %></td>
+    <td align="center"><%= room.cname %></td>
+    <td align="center"><%= room.capacity %></td>
+    <td align="center"><%= room.location %></td>
+    <td align="center"><%= link_to 'Details', room %></td>
 
 
   </tr>

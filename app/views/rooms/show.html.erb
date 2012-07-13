@@ -38,7 +38,7 @@
   <b> All Booking(s) :</b>
 </p>
 
-<table border="3">
+<table border="3" cellpadding="6">
   <tr>
     <th>Organizer</th>
     <th>Description</th>
@@ -56,18 +56,18 @@
 <% @bookings.each do |booking| %>
   <tr>
     <% @user = User.find_by_id(booking.user_id) %>
-    <td><%= @user.username %></td>
-    <td><%= booking.description %></td>
-    <td><%= booking.invitees %></td>
-    <td><%= booking.startdate %></td>
-    <td><%= booking.enddate %></td>
-    <td><%= booking.starttime.strftime "%H:%M" %></td>
-    <td><%= booking.endtime.strftime "%H:%M" %></td>
-    <td><%= booking.recurring %></td>
-    <td><%= booking.guid %></td>
+    <td  align="center"><%= @user.username %></td>
+    <td align="center"><%= booking.description %></td>
+    <td align="center"><%= booking.invitees %></td>
+    <td align="center"><%= booking.startdate %></td>
+    <td align="center"><%= booking.enddate %></td>
+    <td align="center"><%= booking.starttime.strftime "%H:%M" %></td>
+    <td align="center"><%= booking.endtime.strftime "%H:%M" %></td>
+    <td align="center"><%= booking.recurring %></td>
+    <td align="center"><%= booking.guid %></td>
 
-    <td><%= link_to "Edit", :action=>"edit", :id=> booking.id, :controller => "bookings" ,:roomid => @room.id %></td>
-    <td><%= button_to("Delete", {:action=>"destroy", :controller => "bookings", :id=>booking.id, :roomid=>@room.id}, :method=>:delete, :confirm=>"Are you sure?") %></td>
+    <td align="center"><%= link_to "Edit", :action=>"edit", :id=> booking.id, :controller => "bookings" ,:roomid => @room.id %></td>
+    <td align="center"><%= button_to("Delete", {:action=>"destroy", :controller => "bookings", :id=>booking.id, :roomid=>@room.id}, :method=>:delete, :confirm=>"Are you sure?") %></td>
   </tr>
 <% end %>
 
