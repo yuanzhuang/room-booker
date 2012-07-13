@@ -76,6 +76,8 @@ module BookingsHelper
        bookings = []
      end
 
+    logger.info bookings.inspect
+
      risk_bookings = Array.new
 
      bookings.each do |booking|
@@ -87,7 +89,7 @@ module BookingsHelper
          elsif (compare_date(booking.startdate,candidate_booking.startdate) <=0) and (compare_date(booking.enddate,candidate_booking.startdate)>=0) and (compare_date(booking.enddate,candidate_booking.enddate)<=0)
            logger.info 2
            risk_bookings <<  booking
-         elsif (compare_date(booking.startdate,candidate_booking.startdate) >=0 )and (compare_date(booking.startdate, candidate_booking.enddate)>=0) and (compare_date(booking.enddate, candidate_booking.enddate)>=0)
+         elsif (compare_date(booking.startdate,candidate_booking.startdate) >=0 )and (compare_date(booking.startdate, candidate_booking.enddate)<=0) and (compare_date(booking.enddate, candidate_booking.enddate)>=0)
            logger.info 3
            risk_bookings <<  booking
          elsif (compare_date(booking.startdate,candidate_booking.startdate) >=0) and (compare_date(booking.enddate, candidate_booking.enddate)<=0)
@@ -213,7 +215,7 @@ module BookingsHelper
       return hours
     end
 
-    duration = duration + 2*(endhour - starthour)
+    duration = duration + 2*(endhour - starthour) -1
 
     if duration < 0
       return hours

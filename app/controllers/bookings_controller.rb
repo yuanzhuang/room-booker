@@ -139,14 +139,15 @@ class BookingsController < ApplicationController
 
       newbooking.startdate = date
 
+      logger.info newbooking.inspect
+
+      if check_conflicts newbooking
+        redirect_to "/conflicterror"
+        return
+      end
+
       if newbooking.save
         flag = flag + 1
-        if cookies[:user_name]
-          # do nothing
-        else
-          cookies[:user_name] = params[:username]
-          cookies[:expires] = 1.years.from_now.utc
-        end
       else
         # need error handler
         logger.info "Error"
@@ -155,13 +156,18 @@ class BookingsController < ApplicationController
 
 
 
-    if check_conflicts @booking
-      redirect_to "/conflicterror"
-      return
-    end
+
 
     respond_to do |format|
       if flag == dates.size
+        if cookies[:user_name]
+          # do nothing
+          cookies[:user_name] = params[:username]
+          cookies[:expires] = 1.years.from_now.utc
+        else
+          cookies[:user_name] = params[:username]
+          cookies[:expires] = 1.years.from_now.utc
+        end
         format.html { redirect_to :action=>'show',:id=> @room.id ,:controller=>"rooms", notice: 'Booking was successfully created.' }
         format.json { render json: @booking, status: :created, location: @booking }
       else

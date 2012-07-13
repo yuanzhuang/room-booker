@@ -2,6 +2,7 @@
 
 <p>
   <%= "Cookies = "+ cookies[:user_name].inspect %>
+  <hr/>
 </p>
 
 <p>
@@ -30,10 +31,14 @@
 </p>
 
 <p>
-  <b></b>
+  <hr/>
 </p>
 
-<table>
+<p>
+  <b> All Booking(s) :</b>
+</p>
+
+<table border="3">
   <tr>
     <th>Organizer</th>
     <th>Description</th>
@@ -44,8 +49,8 @@
     <th>end-time</th>
     <th>recurring</th>
     <th>guid</th>
-    <th></th>
-    <th></th>
+    <th>EDIT</th>
+    <th>DELETE</th>
   </tr>
 
 <% @bookings.each do |booking| %>
@@ -56,8 +61,8 @@
     <td><%= booking.invitees %></td>
     <td><%= booking.startdate %></td>
     <td><%= booking.enddate %></td>
-    <td><%= booking.starttime %></td>
-    <td><%= booking.endtime %></td>
+    <td><%= booking.starttime.strftime "%H:%M" %></td>
+    <td><%= booking.endtime.strftime "%H:%M" %></td>
     <td><%= booking.recurring %></td>
     <td><%= booking.guid %></td>
 
@@ -68,6 +73,7 @@
 
 </table>
 
+<hr/>
 <%= link_to 'Book', new_booking_path(:roomid => @room.id) %>  |
 
 <%= link_to 'Back', rooms_path %>
