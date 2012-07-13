@@ -61,13 +61,35 @@ class BookingsController < ApplicationController
   # POST /bookings
   # POST /bookings.json
   def create
-    @booking_userid = User.find_by_username(params[:username]).id
+
+    # validating the input username
+    tmp_user = User.find_by_username(params[:username])
+
+    if tmp_user.nil?
+      redirect_to "/validationerror"
+      return
+    end
+    @booking_userid = tmp_user.id
+
+
     @room = Room.find_by_name(params[:roomname])
     @booking_roomid = @room.id
+    #build the guid
     @guid = params[:username] +"!" +Time.now.to_i.to_s
 
     @booking = Booking.new(params[:booking])
 
+    # check the start and _end in date and time
+    if !check_date_and_time(@booking)
+      redirect_to "/validationerror"
+      return
+    end
+
+    # check the invitees is good formatted
+    if !check_invitees(params[:invitees])
+      redirect_to "/validationerror"
+      return
+    end
 
     @booking.user_id= @booking_userid
     @booking.room_id= @booking_roomid

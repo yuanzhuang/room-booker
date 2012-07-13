@@ -4,7 +4,9 @@
     @cookies_info = cookies[:user_name]
 %>
 
-<%=  "Cookies = "+@cookies_info %>
+<p align="left">
+<%=  "Current User = "+@cookies_info.inspect %>
+</p>
 
 <%= render 'form3' %>
 

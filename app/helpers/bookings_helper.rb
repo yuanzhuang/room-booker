@@ -118,7 +118,7 @@ module BookingsHelper
       bits = build_day_bits(candidate_booking, booking)
       #candidate_bits = build_day_bits(candidate_booking,booking)
 
-      if bits & candidate_bits
+      if bits & candidate_bits != 0
         logger.info "============ #{bits & candidate_bits}"
         risk_bookings <<  booking
       end
@@ -289,6 +289,66 @@ module BookingsHelper
     end
 
     return 0
+
+  end
+
+  # enddate >= startdate
+  # endtime > starttime
+  def check_date_and_time(booking)
+    if !check_start_and_end_date(booking)
+      return false
+    end
+
+    if !check_start_and_end_time(booking)
+      return false
+    end
+
+    return true
+
+  end
+
+  def check_start_and_end_date(booking)
+    if compare_date(booking.startdate,booking.enddate) <= 0
+      return true
+    end
+    return false
+  end
+
+  def check_start_and_end_time(booking)
+    if booking.starttime < booking.endtime
+      return true
+    end
+    return false
+  end
+
+  # invitees should be in good formated. like mail,mail,mail
+  def check_invitees(invitees)
+    #invitees = booking.invitees
+    email_pattern = /\w+((_|\.)\w+)*@\w+((_|\.)\w+)*\.\w+/
+
+    #emails = /\w+([-_\.]\w+])*@\w+([-\.]\w+)*\.\w+(\.\w+([-_\.]\w+])*@\w+([-\.]\w+)*\.\w+)*/
+    #emails =  /\w+((_|\.)\w+])*@\w+((_|\.)\w+)*\.\w+(\,\w+((_|\.)\w+])*@\w+((_|\.)\w+)*\.\w+)*/
+
+    invitee_mails = invitees.split ','
+    invitee_mails.each do |mail|
+
+      logger.info "checking mail address "+mail
+
+      extracted_mail = email_pattern.match mail
+      if extracted_mail.nil?
+        logger.info "No match for "+mail.inspect
+        return false
+      else
+        if extracted_mail.to_s != mail
+          logger.info "Can match for "+mail.inspect
+          return false
+        end
+      end
+
+
+    end
+
+    return true
 
   end
 

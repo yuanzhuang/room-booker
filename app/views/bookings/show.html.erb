@@ -1,7 +1,11 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-<%= "Cookies = "+cookies[:use_rname]%>
+<%
+   @cookies_info = cookies[:user_name]
+%>
+
+<p align="left">
+  <%=  "Current User = "+@cookies_info.inspect %>
 </p>
 
 <p>

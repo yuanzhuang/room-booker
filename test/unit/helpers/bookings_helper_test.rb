@@ -5,6 +5,7 @@ class BookingsHelperTest < ActionView::TestCase
 
   include BookingsHelper
 
+=begin
   def test_split_boooking
 
     date = Date.new
@@ -82,5 +83,18 @@ class BookingsHelperTest < ActionView::TestCase
     assert_equal -1,compare_date(date1,date2)
     assert_equal -1,compare_date(date3,date1)
   end
+=end
+  def test_check_invitees
+    invitees1 = "whywhy36@sina.com,xiaomaolv@hotmail.com"
+    invitees2 = "xiaomaolv@sina.com"
+    invitees3 = "abc"
+    invitees4 = "xiaomaolv@sina.com,"
+    invitees5 = ""
 
+    assert check_invitees(invitees1)
+    assert check_invitees(invitees2)
+    assert !check_invitees(invitees3)
+    assert check_invitees(invitees4)
+    assert check_invitees(invitees5)
+  end
 end
