@@ -17,11 +17,17 @@ class BookingsController < ApplicationController
   # GET /bookings/1
   # GET /bookings/1.json
   def show
-    @booking = Booking.find(params[:id])
+
+    @bookings = Booking.find_all_by_user_id(params[:id])
+
+
+    if @bookings.nil?
+      @bookings = Array.new
+    end
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @booking }
+      format.json { render json: @bookings }
     end
   end
 
