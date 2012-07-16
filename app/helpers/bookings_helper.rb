@@ -308,9 +308,15 @@ module BookingsHelper
   end
 
   def check_start_and_end_date(booking)
+
+    if booking.enddate < Date.current
+      return false
+    end
+
     if compare_date(booking.startdate,booking.enddate) <= 0
       return true
     end
+
     return false
   end
 
