@@ -1,4 +1,10 @@
 RoomBooker::Application.routes.draw do
+  get "error_handler/conflict"
+
+  get "error_handler/validation"
+
+  get "error_handler/others"
+
   resources :users
 
 

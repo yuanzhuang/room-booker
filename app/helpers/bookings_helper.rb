@@ -63,8 +63,8 @@ module BookingsHelper
   def check_conflicts (booking)
     risk_bookings_1 = select_risk_bookings_pre booking
     risk_bookings_2 = select_risk_bookings booking,risk_bookings_1
-    flag = select_risk_times booking,risk_bookings_2
-    return flag
+    conflict_booking = select_risk_times booking,risk_bookings_2
+    return conflict_booking
 
   end
 
@@ -248,13 +248,13 @@ module BookingsHelper
         logger.info " ===> #{candidate_bits}"
         logger.info " ===> #{bits & candidate_bits}"
         logger.info " ================================ exit1 ====================================="
-        return true
+        return booking
       end
     end
 
     logger.info "======================exit2 ============================================"
 
-    return false
+    return nil
 
   end
 

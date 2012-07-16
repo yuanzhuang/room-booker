@@ -20,7 +20,6 @@ class BookingsController < ApplicationController
 
     @bookings = Booking.find_all_by_user_id(params[:id])
 
-
     if @bookings.nil?
       @bookings = Array.new
     end
@@ -72,7 +71,8 @@ class BookingsController < ApplicationController
     tmp_user = User.find_by_username(params[:username])
 
     if tmp_user.nil?
-      redirect_to "/validationerror"
+      #redirect_to "/validationerror"
+      redirect_to :action=>"conflict", :controller=>"error_handler", :id=> 0
       return
     end
     @booking_userid = tmp_user.id
@@ -85,17 +85,20 @@ class BookingsController < ApplicationController
 
     @booking = Booking.new(params[:booking])
 
-    # check the start and _end in date and time
-    if !check_date_and_time(@booking)
-      redirect_to "/validationerror"
+    # check the invitees is good formatted
+    if !check_invitees(params[:invitees])
+      redirect_to :action=>"validation", :controller=>"error_handler", :id=> 1
       return
     end
 
-    # check the invitees is good formatted
-    if !check_invitees(params[:invitees])
-      redirect_to "/validationerror"
+    # check the start and _end in date and time
+    if !check_date_and_time(@booking)
+      #redirect_to "/validationerror"
+      redirect_to :action=>"validation", :controller=>"error_handler", :id=> 2
       return
     end
+
+
 
     @booking.user_id= @booking_userid
     @booking.room_id= @booking_roomid
@@ -169,8 +172,8 @@ class BookingsController < ApplicationController
 
       logger.info newbooking.inspect
 
-      if check_conflicts newbooking
-        redirect_to "/conflicterror"
+      if conflict_booking=check_conflicts(newbooking)
+        redirect_to :action=>"conflict", :controller=>"error_handler", :id=> conflict_booking.id, notice: "Conflict checking."
         return
       end
 

@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p> Conflict Checked.</p>
+
+<p> The following booking is conflict with yours.</p>
+
+<p>
+  <b>Organizer: </b>
+  <%= @user_info.username %>
+  <br/>
+  <b>Description: </b>
+  <%= @conflict_booking.description %>
+  <br/>
+  <b>Invitees: </b>
+  <%= @conflict_booking.invitees %>
+  <br/>
+  <b>StartDate: </b>
+  <%= @conflict_booking.startdate %>
+  <br/>
+  <b>EndDate: </b>
+  <%= @conflict_booking.enddate %>
+  <br/>
+  <b>StartTime: </b>
+  <%= @conflict_booking.starttime.strftime("%H:%M") %>
+  <br/>
+  <b>Endtime: </b>
+  <%= @conflict_booking.endtime.strftime("%H:%M") %>
+  <br/>
+  <b>recurring: </b>
+  <%= @conflict_booking.recurring %>
+  <br/>
+</p>
+
+
+
+
+
+
+
+
