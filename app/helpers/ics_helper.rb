@@ -20,8 +20,8 @@ module IcsHelper
 
     dtstart = Time.new start_date.year,start_date.month,start_date.day,start_time.hour,start_time.min,start_time.sec
     dtend = Time.new start_date.year,start_date.month,start_date.day,end_time.hour,end_time.min,end_time.sec
-    dtstamp = booking.created_at.to_time
-    last_modified = booking.updated_at.to_time
+    dtstamp = Time.now
+    last_modified = Time.now
 
     times.store :dtstart,dtstart.getutc
     times.store :dtend,dtend.getutc

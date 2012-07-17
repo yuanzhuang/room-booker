@@ -10,7 +10,7 @@ class IcsHelperTest < ActionView::TestCase
 
     ics = generate_ics(booking)
 
-    puts ics.inspect
+    puts ics.to_s
 
     assert true
 

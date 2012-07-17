@@ -199,6 +199,9 @@ class BookingsController < ApplicationController
           cookies[:user_name] = params[:username]
           cookies[:expires] = 1.years.from_now.utc
         end
+
+        Notifier.notification_mail(@booking).deliver
+
         format.html { redirect_to :action=>'show',:id=> @room.id ,:controller=>"rooms", notice: 'Booking was successfully created.' }
         format.json { render json: @booking, status: :created, location: @booking }
       else
