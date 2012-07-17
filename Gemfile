@@ -12,6 +12,7 @@ gem 'execjs'
 gem 'therubyracer'
 
 gem 'calendar_helper'
+gem 'ri_cal'
 
 # Gems used only for assets and not required
 # in production environments by default.
