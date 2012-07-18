@@ -6,6 +6,10 @@ class Notifier < ActionMailer::Base
 
   # send a notification mail to the organizer and all invitees if one booking done
   def notification_mail(booking)
+
+    @booking_organizer = User.find(booking.user_id).username
+    @booking = booking
+
     filename = "tmpfile/"+booking.guid
     ics_content = generate_ics(booking)
     ics_file = File.new( filename, "w")
