@@ -71,8 +71,7 @@ class BookingsController < ApplicationController
     tmp_user = User.find_by_username(params[:username])
 
     if tmp_user.nil?
-      #redirect_to "/validationerror"
-      redirect_to :action=>"conflict", :controller=>"error_handler", :id=> 0
+      redirect_to "/validationerror"
       return
     end
     @booking_userid = tmp_user.id
