@@ -68,6 +68,19 @@ module BookingsHelper
 
   end
 
+  def check_conflicts_with_specific(booking, other_booking)
+    bits = build_day_bits2 booking
+    bits2 = build_day_bits booking,other_booking
+
+    if (bits & bits2)!=0
+      return true
+    else
+      return false
+    end
+
+  end
+
+
   def select_risk_bookings_pre(candidate_booking)
     logger.info "============== in select risk bookign pre =============="
      bookings = Booking.find_all_by_room_id(candidate_booking.room_id)

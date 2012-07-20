@@ -24,6 +24,9 @@ RoomBooker::Application.routes.draw do
   resources :bookings, :except=>[:index]
   resources :rooms, :except=>[ :edit, :destroy, :update ]
 
+  match 'search' => 'search#search'
+  match 'search/result' => 'search#result'
+  match 'search/confirm' => 'search#confirm'
 
   # Sample resource route with options:
   #   resources :products do

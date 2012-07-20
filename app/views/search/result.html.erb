@@ -1,0 +1,23 @@
+<h1> Search Result </h1>
+
+<table border="1" align="left" cellspacing="1" cellpadding="6">
+  <tr>
+    <th>Roomnum</th>
+    <th>Name</th>
+    <th>Cname</th>
+    <th>Capacity</th>
+    <th>Location</th>
+    <th>Details</th>
+  </tr>
+
+  <% @rooms.each do |room| %>
+      <tr>
+        <td align="center"><%= room.roomnum %></td>
+        <td align="center"><%= room.name %></td>
+        <td align="center"><%= room.cname %></td>
+        <td align="center"><%= room.capacity %></td>
+        <td align="center"><%= room.location %></td>
+        <td align="center"><%= link_to 'Book', search_confirm_path(:room=> room,  :params => params)  %></td>
+      </tr>
+  <% end %>
+</table>
