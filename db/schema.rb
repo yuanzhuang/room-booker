@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120720060901) do
+ActiveRecord::Schema.define(:version => 20120720091309) do
 
   create_table "bookings", :force => true do |t|
     t.integer  "room_id"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20120720060901) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "guid"
+    t.string   "summary"
   end
 
   add_index "bookings", ["room_id"], :name => "index_bookings_on_room_id"
