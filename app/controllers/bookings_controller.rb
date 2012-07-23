@@ -108,6 +108,7 @@ class BookingsController < ApplicationController
     @booking.room_id= @booking_roomid
     @booking.guid= @guid
 
+    @booking.summary = params[:summary]
     @booking.description= params[:description]
     @booking.invitees= params[:invitees]
 
@@ -168,6 +169,7 @@ class BookingsController < ApplicationController
       newbooking.user_id = @booking_userid
       newbooking.room_id = @booking_roomid
       newbooking.guid = @guid
+      newbooking.summary = params[:summary]
       newbooking.description= params[:description]
       newbooking.invitees= params[:invitees]
       newbooking.recurring =  params[:recurring]
@@ -226,9 +228,9 @@ class BookingsController < ApplicationController
 
 
     respond_to do |format|
-      if @booking.update_attributes(params[:booking].merge!({:description=>params[:description],:invitees=>params[:invitees],:recurring=>params[:recurring]}))
+      if @booking.update_attributes(params[:booking].merge!({:summary=>params[:summary],:description=>params[:description],:invitees=>params[:invitees],:recurring=>params[:recurring]}))
 
-        format.html { redirect_to :action=>"show", :id=>@room.id, :controller=>"rooms", notice: "Booking was successfully updated."}
+        format.html { redirect_to :action=>"show", :id=>@room.id, :controller=>"rooms"}
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

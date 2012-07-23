@@ -1,16 +1,18 @@
 <%= render 'formhead' %>
 
-<h1> Search Result </h1>
+<fieldset>
+  <legend> Available Room(s)</legend>
 
 <table class="table table-bordered table-striped table-condensed" border="1" align="left" cellspacing="1" cellpadding="6">
   <thred>
   <tr>
-    <th>Roomnum</th>
+    <th>#</th>
     <th>Name</th>
     <th>Cname</th>
     <th>Capacity</th>
+    <th>Comments</th>
     <th>Location</th>
-    <th>Details</th>
+    <th>Book IT</th>
   </tr>
   </thred>
 
@@ -21,9 +23,28 @@
         <td align="center"><%= room.name %></td>
         <td align="center"><%= room.cname %></td>
         <td align="center"><%= room.capacity %></td>
+        <%
+            devices_str = ""
+           devices = room.devices
+           if (devices & 1) == 1
+             devices_str = devices_str + " Projector "
+           end
+           devices = devices >> 1
+           if (devices & 1) == 1
+             devices_str = devices_str + " Telephone "
+           end
+           devices = devices >> 1
+           if (devices & 1) == 1
+             devices_str = devices_str + " Television "
+           end
+
+        %>
+        <td><%= devices_str %></td>
         <td align="center"><%= room.location %></td>
         <td align="center"><%= link_to 'Book', search_confirm_path(:room=> room,  :params => params)  %></td>
       </tr>
         </tbody>
   <% end %>
 </table>
+
+    </fieldset>

@@ -19,7 +19,7 @@ class Notifier < ActionMailer::Base
     mail_addr = User.find(booking.user_id).username
     attachments['invite.ics'] = {:content => File.read(filename), :mime_type => "text/calendar"}
 
-    mail(:to => mail_addr, :subject => booking.description, :template_path => "notifier", :template_name => "content" )
+    mail(:to => mail_addr, :subject => booking.summary, :template_path => "notifier", :template_name => "content" )
 
   end
 
