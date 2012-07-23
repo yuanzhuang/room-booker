@@ -1,6 +1,6 @@
 module DeviceHelper
 
-  DEVICETYPE = ["PROJECTOR","PHONE"]
+  DEVICETYPE = ["PROJECTOR","PHONE","TV"]
 
   def get_devices(room)
     devices = Array.new
@@ -11,9 +11,14 @@ module DeviceHelper
       devices << DEVICETYPE[0]
     end
 
-    flag >> 1
-    if (flag & 1) == 1
+    flags >> 1
+    if (flags & 1) == 1
       devices << DEVICETYPE[1]
+    end
+
+    flags >> 1
+    if (flags & 1) == 1
+      devices << DEVICETYPE[2]
     end
 
   end
