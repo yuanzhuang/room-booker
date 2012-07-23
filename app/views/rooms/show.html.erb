@@ -15,13 +15,33 @@
 </p>
 
 <p>
-  <b>Cname:</b>
+  <b>CName:</b>
   <%= @room.cname %>
 </p>
 
 <p>
   <b>Capacity:</b>
   <%= @room.capacity %>
+</p>
+
+<p>
+  <b>Comments:</b>
+  <%
+     devices_str = ""
+     devices = @room.devices
+     if (devices & 1) == 1
+       devices_str = devices_str + " Projector "
+     end
+     devices = devices >> 1
+     if (devices & 1) == 1
+       devices_str = devices_str + " Telephone "
+     end
+     devices = devices >> 1
+     if (devices & 1) == 1
+       devices_str = devices_str + " Television "
+     end
+  %>
+  <%= devices_str %>
 </p>
 
 <p>

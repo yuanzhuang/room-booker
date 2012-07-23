@@ -1,54 +1,60 @@
 <%= form_tag :action => :create  do %>
     <div class="control-group">
-      <label class="control-label" for="username">User</label> <br/>
+      <label class="control-label" for="username">User</label>
       <%= text_field_tag :username, params[:username] %>
     </div>
+
     <div class="control-group">
-      <label class="control-label" for="description">Description</label>     <br/>
-      <%= text_field_tag :description, params[:description] %>
+      <label class="control-label" for="summary">Summary</label>
+      <%= text_field_tag :summary, params[:summary] %>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="description">Description</label>
+      <%= text_area_tag :description, params[:description], :class=>"input-xlarge" %>
     </div>
     <p>
-      <label class="control-label" for="invitees">Invitees</label>   <br/>
-      <%= text_field_tag :invitees, params[:invitees] %>
+      <label class="control-label" for="invitees">Invitees</label>
+      <%= text_field_tag :invitees, params[:invitees], :class=>"input-xlarge"%>
     </p>
     <p>
-      <label class="control-label" for="startdate">Start Date</label>    <br/>
+      <label class="control-label" for="startdate">Start Date</label>
       <%= date_select :booking,  "startdate", :order=>[:year,:month,:day]%>
     </p>
     <p>
-      <label class="control-label" for="enddate">End Date</label>      <br/>
+      <label class="control-label" for="enddate">End Date</label>
       <%= date_select :booking, "enddate",:order=>[:year,:month,:day]%>
     </p>
     <p>
-      <label class="control-label" for="starttime">Start Time</label>    <br/>
+      <label class="control-label" for="starttime">Start Time</label>
       <%= time_select :booking, "starttime" ,{:minute_step => 30}%>
     </p>
     <p>
-      <label class="control-label" for="endtime">End Time</label>    <br/>
+      <label class="control-label" for="endtime">End Time</label>
       <%= time_select :booking, "endtime" ,{:minute_step => 30}%>
     </p>
 
 
     <p>
-      <label for="recurring">Recurring Type</label>    <br/>
+      <label for="recurring">Recurring Type</label>
       <%= radio_button_tag 'recurring',  Booking::RECURRING_TYPE[0], true, :class=> 'recurring_type' %> NO_RECURRING
       <%= radio_button_tag 'recurring',   Booking::RECURRING_TYPE[1], false, :class=> 'recurring_type' %> DAILY
       <%= radio_button_tag 'recurring',   Booking::RECURRING_TYPE[2], false, :class=> 'recurring_type'  %> WEEKLY
-      <%= radio_button_tag 'recurring',  Booking::RECURRING_TYPE[3], false,:class=> 'recurring_type'  %> BI-WEEKLY  <br/>
+      <%= radio_button_tag 'recurring',  Booking::RECURRING_TYPE[3], false,:class=> 'recurring_type'  %> BI-WEEKLY
     </p>
     <p>
-      <label for="recurring">Recurring Day</label>    <br/>
+      <label for="recurring">Recurring Day</label>
       <%= check_box_tag 'recurringday1', Booking::RECURRING_DAY[0],false, :class=>'recurring_day' %> Mon.
       <%= check_box_tag 'recurringday2', Booking::RECURRING_DAY[1],false, :class=>'recurring_day' %> Tue.
       <%= check_box_tag 'recurringday3', Booking::RECURRING_DAY[2],false, :class=>'recurring_day' %> Wed.
       <%= check_box_tag 'recurringday4', Booking::RECURRING_DAY[3],false, :class=>'recurring_day' %> Thu.
       <%= check_box_tag 'recurringday5', Booking::RECURRING_DAY[4],false, :class=>'recurring_day' %> Fri.
       <%= check_box_tag 'recurringday6', Booking::RECURRING_DAY[5],false, :class=>'recurring_day' %> Sat.
-      <%= check_box_tag 'recurringday7', Booking::RECURRING_DAY[6],false, :class=>'recurring_day' %> Sun. <br/>
+      <%= check_box_tag 'recurringday7', Booking::RECURRING_DAY[6],false, :class=>'recurring_day' %> Sun.
     </p>
 
     <%= hidden_field_tag(:roomname, @room.name) %>
     <p>
-      <%= submit_tag("Booking") %>
+      <%= submit_tag "Booking",:class=>"btn btn-primary" %>
     </p>
 <% end %>
