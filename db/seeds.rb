@@ -14,7 +14,7 @@ rooms = Room.create([{roomnum:1, name:"Crimson Tide", cname:"满江红", capacit
                      {roomnum:3, name:"Fisher Pride", cname:"渔家傲", capacity:15, location:"Floor 10", devices:3 },\
                      {roomnum:4, name:"Garden Spring", cname:"沁园春", capacity:15, location:"Floor 10", devices:3 },\
                      {roomnum:5, name:"Plum Blossom", cname:"一剪梅", capacity:15, location:"Floor 10", devices:3 },\
-                     {roomnum:6, name:"Ocean Songs", cname:"水调歌头", capacity:8, location:"Floor 10", devices:3 },\
+                     {roomnum:6, name:"Ocean Songs", cname:"水调歌头", capacity:8, location:"Floor 10", devices:2 },\
                      {roomnum:7, name:"Fair Lady", cname:"念奴娇", capacity:5, location:"Floor 10", devices:2 },\
                      {roomnum:8, name:"BoF", cname:"蝶恋花", capacity:10, location:"Floor 10", devices:2 },\
                      {roomnum:9, name:"Buddha Hymns", cname:"菩萨蛮", capacity:10, location:"Floor 10", devices:3 },\
@@ -23,3 +23,10 @@ rooms = Room.create([{roomnum:1, name:"Crimson Tide", cname:"满江红", capacit
                      {roomnum:13, name:"Flying Daggers", cname:"十面埋伏", capacity:15, location:"Floor 11", devices:3 },\
                      {roomnum:14, name:"Spring Snow", cname:"阳春白雪", capacity:15, location:"Floor 11", devices:3 },\
                      {roomnum:15, name:"Silver Cloud", cname:"彩云追月", capacity:15, location:"Floor 11", devices:3 }])
+
+
+Booking.delete_all
+
+User.delete_all
+
+users = User.create([{username:"whywhy36@sina.com"},{username:"zyuan@rbcon.com"}])
