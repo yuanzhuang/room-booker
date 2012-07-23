@@ -6,13 +6,19 @@
       <% @user = User.find_by_id(@booking.user_id)%>
       <%= text_field_tag :username, @user.username, :disabled=>true %>
     </p>
+
+    <p>
+      <label for="summary">Summary</label>
+      <%= text_field_tag :summary, @booking.summary %>
+    </p>
+
     <p>
       <label for="description">Description</label>
-      <%= text_field_tag :description, @booking.description %>
+      <%= text_area_tag :description, @booking.description,:class=>"input-xlarge" %>
     </p>
     <p>
       <label for="invitees">Invitees</label>
-      <%= text_field_tag :invitees, @booking.invitees %>
+      <%= text_field_tag :invitees, @booking.invitees,:class=>"input-xlarge" %>
     </p>
 
 
@@ -25,13 +31,6 @@
       <%= date_select "booking", "enddate", :order=>[:year,:month,:day]%>
     </p>
 
-    <!--
-    <p>
-      <%= calendar(:year => @year, :month=>@month, :first_day_of_week => 0).html_safe
-      %>
-    </p>
-    -->
-
     <p>
       <label for="starttime">Start Time</label>
       <%= time_select "booking", "starttime",{:minute_step => 30} %>
@@ -43,10 +42,10 @@
 
     <p>
       <label for="recurring">Recurring Type</label>    <br/>
-      <%= radio_button_tag 'recurring',  Booking::RECURRING_TYPE[0], true, :class=> "recurring_type" %> NO_RECURRING
-      <%= radio_button_tag 'recurring',   Booking::RECURRING_TYPE[1], true, :class=> "recurring_type" %> DAILY
-      <%= radio_button_tag 'recurring',   Booking::RECURRING_TYPE[2], true, :class=> "recurring_type"  %> WEEKLY
-      <%= radio_button_tag 'recurring',  Booking::RECURRING_TYPE[3], true,:class=> "recurring_type"  %> BI-WEEKLY  <br/>
+      <%= radio_button_tag 'recurring',  Booking::RECURRING_TYPE[0], false, :class=> "recurring_type" %> NO_RECURRING
+      <%= radio_button_tag 'recurring',   Booking::RECURRING_TYPE[1], false, :class=> "recurring_type" %> DAILY
+      <%= radio_button_tag 'recurring',   Booking::RECURRING_TYPE[2], false, :class=> "recurring_type"  %> WEEKLY
+      <%= radio_button_tag 'recurring',  Booking::RECURRING_TYPE[3], false,:class=> "recurring_type"  %> BI-WEEKLY  <br/>
     </p>
     <p>
       <label for="recurring">Recurring Day</label>    <br/>
@@ -62,7 +61,7 @@
 
     <%= hidden_field_tag(:roomname, @room.name) %>
     <p>
-      <%= submit_tag("Update") %>
+      <%= submit_tag "Update",:class=>"btn btn-warning" %>
     </p>
 <% end %>
 

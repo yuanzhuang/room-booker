@@ -10,12 +10,16 @@
       <%= text_field_tag :username, params[:username] %>
     </p>
     <p>
+      <label for="summary">Summary</label>
+      <%= text_field_tag :summary, params[:summary] %>
+    </p>
+    <p>
       <label for="description">Description</label>
-      <%= text_field_tag :description, params[:description] %>
+      <%= text_area_tag :description, params[:description], :class=>"input-xlarge" %>
     </p>
     <p>
       <label for="invitees">Invitees</label>
-      <%= text_field_tag :invitees, params[:invitees] %>
+      <%= text_field_tag :invitees, params[:invitees] ,:class=>"input-xlarge"%>
     </p>
     <p>
       <label for="startdate">Start Date</label>
