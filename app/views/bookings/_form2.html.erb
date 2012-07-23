@@ -1,30 +1,30 @@
 <%= form_tag :action => :create  do %>
-    <p>
-      <label for="username">User</label> <br/>
+    <div class="control-group">
+      <label class="control-label" for="username">User</label> <br/>
       <%= text_field_tag :username, params[:username] %>
-    </p>
-    <p>
-      <label for="description">Description</label>     <br/>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="description">Description</label>     <br/>
       <%= text_field_tag :description, params[:description] %>
-    </p>
+    </div>
     <p>
-      <label for="invitees">Invitees</label>   <br/>
+      <label class="control-label" for="invitees">Invitees</label>   <br/>
       <%= text_field_tag :invitees, params[:invitees] %>
     </p>
     <p>
-      <label for="startdate">Start Date</label>    <br/>
+      <label class="control-label" for="startdate">Start Date</label>    <br/>
       <%= date_select :booking,  "startdate", :order=>[:year,:month,:day]%>
     </p>
     <p>
-      <label for="enddate">End Date</label>      <br/>
+      <label class="control-label" for="enddate">End Date</label>      <br/>
       <%= date_select :booking, "enddate",:order=>[:year,:month,:day]%>
     </p>
     <p>
-      <label for="starttime">Start Time</label>    <br/>
+      <label class="control-label" for="starttime">Start Time</label>    <br/>
       <%= time_select :booking, "starttime" ,{:minute_step => 30}%>
     </p>
     <p>
-      <label for="endtime">End Time</label>    <br/>
+      <label class="control-label" for="endtime">End Time</label>    <br/>
       <%= time_select :booking, "endtime" ,{:minute_step => 30}%>
     </p>
 

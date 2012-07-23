@@ -1,8 +1,20 @@
 <%= render 'formhead' %>
 
+<p class="form-actions" id="search_button">
+  <strong>   CLICK ME TO TRY SEARCH !  </strong>
+</p>
+
+<div class="search" id="searchform">
+  <%= render 'formsearch' %>
+</div>
+
+
+<%= javascript_tag  %>
+
 <h1>Listing rooms</h1>
 
-<table border="1" align="left" cellspacing="1" cellpadding="6">
+<table class="table table-bordered table-striped table-condensed" >
+  <thread>
   <tr>
     <th>Roomnum</th>
     <th>Name</th>
@@ -11,7 +23,8 @@
     <th>Location</th>
     <th>Details</th>
   </tr>
-
+  </thread>
+  <tbody>
 <% @rooms.each do |room| %>
   <tr>
     <td align="center"><%= room.roomnum %></td>
@@ -24,6 +37,7 @@
 
   </tr>
 <% end %>
+  </tbody>
 </table>
 
 <br />

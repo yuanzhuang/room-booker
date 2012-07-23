@@ -1,6 +1,7 @@
 <h1> Search Result </h1>
 
-<table border="1" align="left" cellspacing="1" cellpadding="6">
+<table class="table table-bordered table-striped table-condensed" border="1" align="left" cellspacing="1" cellpadding="6">
+  <thred>
   <tr>
     <th>Roomnum</th>
     <th>Name</th>
@@ -9,7 +10,9 @@
     <th>Location</th>
     <th>Details</th>
   </tr>
+  </thred>
 
+  <tbody>
   <% @rooms.each do |room| %>
       <tr>
         <td align="center"><%= room.roomnum %></td>
@@ -19,5 +22,6 @@
         <td align="center"><%= room.location %></td>
         <td align="center"><%= link_to 'Book', search_confirm_path(:room=> room,  :params => params)  %></td>
       </tr>
+        </tbody>
   <% end %>
 </table>

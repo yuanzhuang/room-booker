@@ -5,6 +5,7 @@ class RoomsController < ApplicationController
 
     respond_to do |format|
       format.html
+      format.js
       format.xml  { render :xml => @rooms}
     end
 

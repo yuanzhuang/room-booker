@@ -1,3 +1,4 @@
+
 <%
    @cookies_info = cookies[:user_name]
    current_user_id = -1
@@ -16,14 +17,16 @@
 
 %>
 
-<p align="left">
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner">
+  <div class="container">
+    <a class="brand" href="#"> ROOM-BOOKER </a>
+    <ul class="nav pull-right"><li><strong>Current User is : <%= link_to @cookies_info, :controller=>"bookings", :action=>"show", :id=>current_user_id %> </strong>
+    </li></ul>
+  </div>
+</div>
+</div>
 
-Current User is : <%= link_to @cookies_info, :controller=>"bookings", :action=>"show", :id=>current_user_id %>
-
-</p>
-
-<p align="left">
-  <%=  link_to "SEARCH ROOMS ACCORDING TO YOUR REQUIREMENT", :controller=>"search",:action=>"search" %>
-</p>
-
-<hr/>
+<br/>
+<br/>
+<br/>

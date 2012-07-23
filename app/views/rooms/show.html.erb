@@ -2,6 +2,8 @@
 
 <%= render 'formhead' %>
 
+
+<div class="form-actions">
 <p>
   <b>Roomnum:</b>
   <%= @room.roomnum %>
@@ -27,15 +29,14 @@
   <%= @room.location %>
 </p>
 
-<p>
-  <hr/>
+</div>
 </p>
 
 <p>
   <b> All Booking(s) :</b>
 </p>
 
-<table border="3" cellpadding="6">
+<table class="table table-bordered table-striped table-condensed" >
   <tr>
     <th>Organizer</th>
     <th>Description</th>
@@ -46,7 +47,7 @@
     <th>start-time</th>
     <th>end-time</th>
     <th>recurring</th>
-    <th>guid</th>
+    <!--<th>guid</th> -->
     <th>expired</th>
     <th>EDIT</th>
     <th>DELETE</th>
@@ -64,11 +65,11 @@
     <td align="center"><%= booking.starttime.strftime "%H:%M" %></td>
     <td align="center"><%= booking.endtime.strftime "%H:%M" %></td>
     <td align="center"><%= booking.recurring %></td>
-    <td align="center"><%= booking.guid %></td>
+    <!--<td align="center"><%= booking.guid %></td> -->
     <td align="center"><%= (booking.enddate <= Date.current) %></td>
 
     <td align="center"><%= link_to "Edit", :action=>"edit", :id=> booking.id, :controller => "bookings" ,:roomid => @room.id %></td>
-    <td align="center"><%= button_to("Delete", {:action=>"destroy", :controller => "bookings", :id=>booking.id, :roomid=>@room.id}, :method=>:delete, :confirm=>"Are you sure?") %></td>
+    <td align="center"><%= button_to("Delete", {:action=>"destroy", :controller => "bookings", :id=>booking.id, :roomid=>@room.id}, :method=>:delete, :confirm=>"Are you sure?",:class=>"btn btn-danger btn-mini" ) %></td>
   </tr>
 <% end %>
 

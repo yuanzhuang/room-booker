@@ -4,7 +4,8 @@
 
 <h1> My Booking List : </h1>
 
-<table border="3" cellpadding="6">
+<table class="table table-bordered table-striped table-condensed" >
+  <thead>
   <tr>
     <th>Organizer</th>
     <th>Room</th>
@@ -16,14 +17,15 @@
     <th>start-time</th>
     <th>end-time</th>
     <th>recurring</th>
-    <th>guid</th>
+    <!--<th>guid</th>-->
 
     <th>expired?</th>
 
     <th>EDIT</th>
     <th>DELETE</th>
   </tr>
-
+  </thead>
+  <tbody>
   <% @bookings.each do |booking| %>
       <tr>
         <% @user = User.find_by_id(booking.user_id) %>
@@ -38,7 +40,7 @@
         <td align="center"><%= booking.starttime.strftime "%H:%M" %></td>
         <td align="center"><%= booking.endtime.strftime "%H:%M" %></td>
         <td align="center"><%= booking.recurring %></td>
-        <td align="center"><%= booking.guid %></td>
+        <!--<td align="center"><%= booking.guid %></td> -->
         <%
             if booking.enddate < Date.current
                 @expired = "expired"
@@ -52,5 +54,5 @@
         <td align="center"><%= button_to("Delete", {:action=>"destroy", :controller => "bookings", :id=>booking.id, :roomid=>@room.id}, :method=>:delete, :confirm=>"Are you sure?") %></td>
       </tr>
   <% end %>
-
+  </tbody>
  </table>
