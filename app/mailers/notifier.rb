@@ -12,12 +12,9 @@ class Notifier < ActionMailer::Base
 
     filename = "tmpfile/"+booking.guid
     ics_content = generate_ics(booking)
-    ics_file = File.new( filename, "w")
-    ics_file.write(ics_content.to_s)
-    ics_file.close
 
     mail_addr = User.find(booking.user_id).username
-    attachments['invite.ics'] = {:content => File.read(filename), :mime_type => "text/calendar"}
+    attachments['invite.ics'] = {:content => ics_content.to_s, :mime_type => "text/calendar"}
 
     mail(:to => mail_addr, :subject => booking.summary, :template_path => "notifier", :template_name => "content" )
 
