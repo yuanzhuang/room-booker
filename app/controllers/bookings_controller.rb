@@ -35,6 +35,8 @@ class BookingsController < ApplicationController
   def new
     @booking = Booking.new
     @room = Room.find(params[:roomid])
+    logger.info "#{Time.now} #{params[:roomid]} create"
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @booking }
@@ -45,6 +47,8 @@ class BookingsController < ApplicationController
   def edit
     @booking = Booking.find(params[:id])
     @room =  Room.find(params[:roomid])
+    logger.info "#{Time.now} bookingid:#{params[:id]} roomid:#{params[:roomid]} edit"
+
 
     @year = 2012
     @month =   7
@@ -69,6 +73,7 @@ class BookingsController < ApplicationController
 
     # validating the input username
     tmp_user = User.find_by_username(params[:username])
+    logger.info "#{Time.now} #{params[:username]} create"
 
     if tmp_user.nil?
       redirect_to "/validationerror"
@@ -217,6 +222,8 @@ class BookingsController < ApplicationController
     @booking = Booking.find(params[:id])
 
     @room = Room.find_by_id(@booking.room_id)
+    logger.info "#{Time.now} booking:#{@booking} room:#{@room} update"
+
 
     respond_to do |format|
       if @booking.update_attributes(params[:booking].merge!({:description=>params[:description],:invitees=>params[:invitees],:recurring=>params[:recurring]}))
@@ -236,6 +243,7 @@ class BookingsController < ApplicationController
     @booking = Booking.find(params[:id])
     @room = Room.find_by_id(@booking.room_id)
     @user_cookie = User.find(@booking.user_id).username
+    logger.info "#{Time.now} booking:#{@booking} room:#{@room} delete"
 
     if cookies[:user_name] != @user_cookie
        redirect_to("/error")

@@ -23,6 +23,8 @@ class RoomsController < ApplicationController
 
   def create
     @room = Room.new(params[:room])
+    logger.info "#{Time.now} #{params[:room]} create"
+
 
     respond_to do |format|
       if @room.save
@@ -38,6 +40,7 @@ class RoomsController < ApplicationController
 
   def new
     @room = Room.new
+    logger.info "#{Time.now} room:#{@room} create"
 
     respond_to do |format|
       format.html
@@ -47,11 +50,13 @@ class RoomsController < ApplicationController
 
   def edit
     @room = Room.find(params[:id])
+    logger.info "#{Time.now} room:#{@room} edit"
+
   end
 
   def update
     @room = Room.find(params[:id])
-
+    logger.info "#{Time.now} #{params[:id]} update"
     respond_to do |format|
       if @room.update_attributes(params[:room])
         format.html {redirect_to(@room,:notice => 'Room was successfully updated.')}
@@ -65,6 +70,7 @@ class RoomsController < ApplicationController
 
   def destroy
     @room = Room.find(params[:id])
+    logger.info "#{Time.now} #{params[:id]} delete"
     @room.destroy
 
     respond_to do |format|
