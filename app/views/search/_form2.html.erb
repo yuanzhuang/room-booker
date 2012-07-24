@@ -37,25 +37,67 @@
       <label for="endtime">End Time</label>
       <%= time_select :booking, "endtime" ,{:minute_step => 30}%>
     </p>
+    <%
 
+       recurring_flags = Array.new
+       if @recurring == Booking::RECURRING_TYPE[0]
+        recurring_flags << true
+        recurring_flags << false
+        recurring_flags << false
+        recurring_flags << false
+       elsif @recurring == Booking::RECURRING_TYPE[1]
+         recurring_flags << false
+         recurring_flags << true
+         recurring_flags << false
+         recurring_flags << false
+       elsif @recurring == Booking::RECURRING_TYPE[2]
+         recurring_flags << false
+         recurring_flags << false
+         recurring_flags << true
+         recurring_flags << false
+       elsif @recurring == Booking::RECURRING_TYPE[3]
+         recurring_flags << false
+         recurring_flags << false
+         recurring_flags << false
+         recurring_flags << true
+       else
+         recurring_flags << true
+         recurring_flags << false
+         recurring_flags << false
+         recurring_flags << false
+       end
+
+    %>
 
     <p>
       <label for="recurring">Recurring Type</label>
-      <%= radio_button_tag 'recurring',  Booking::RECURRING_TYPE[0], true, :class=> 'recurring_type' %> NO_RECURRING
-      <%= radio_button_tag 'recurring',   Booking::RECURRING_TYPE[1], false, :class=> 'recurring_type' %> DAILY
-      <%= radio_button_tag 'recurring',   Booking::RECURRING_TYPE[2], false, :class=> 'recurring_type'  %> WEEKLY
-      <%= radio_button_tag 'recurring',  Booking::RECURRING_TYPE[3], false,:class=> 'recurring_type'  %> BI-WEEKLY
+      <%= radio_button_tag 'recurring',  Booking::RECURRING_TYPE[0], recurring_flags[0], :class=> 'recurring_type' %> NO_RECURRING
+      <%= radio_button_tag 'recurring',   Booking::RECURRING_TYPE[1], recurring_flags[1], :class=> 'recurring_type' %> DAILY
+      <%= radio_button_tag 'recurring',   Booking::RECURRING_TYPE[2], recurring_flags[2], :class=> 'recurring_type'  %> WEEKLY
+      <%= radio_button_tag 'recurring',  Booking::RECURRING_TYPE[3], recurring_flags[3],:class=> 'recurring_type'  %> BI-WEEKLY
     </p>
+
+    <%
+    recurringday_flags = Array.new
+    7.times do
+       recurringday_flags << false
+    end
+
+    @recurring_days.each do |value|
+        recurringday_flags[value] = true
+    end
+
+    %>
 
     <p>
       <label  for="recurring">Recurring Day</label>
-      <%= check_box_tag 'recurringday1', Booking::RECURRING_DAY[0],false, :class=>'checkbox inline' %> Mon.
-      <%= check_box_tag 'recurringday2', Booking::RECURRING_DAY[1],false, :class=>'recurring_day' %> Tue.
-      <%= check_box_tag 'recurringday3', Booking::RECURRING_DAY[2],false, :class=>'recurring_day' %> Wed.
-      <%= check_box_tag 'recurringday4', Booking::RECURRING_DAY[3],false, :class=>'recurring_day' %> Thu.
-      <%= check_box_tag 'recurringday5', Booking::RECURRING_DAY[4],false, :class=>'recurring_day' %> Fri.
-      <%= check_box_tag 'recurringday6', Booking::RECURRING_DAY[5],false, :class=>'recurring_day' %> Sat.
-      <%= check_box_tag 'recurringday7', Booking::RECURRING_DAY[6],false, :class=>'recurring_day' %> Sun. <br/>
+      <%= check_box_tag 'recurringday1', Booking::RECURRING_DAY[0],recurringday_flags[0], :class=>'checkbox inline' %> Mon.
+      <%= check_box_tag 'recurringday2', Booking::RECURRING_DAY[1],recurringday_flags[1], :class=>'recurring_day' %> Tue.
+      <%= check_box_tag 'recurringday3', Booking::RECURRING_DAY[2],recurringday_flags[2], :class=>'recurring_day' %> Wed.
+      <%= check_box_tag 'recurringday4', Booking::RECURRING_DAY[3],recurringday_flags[3], :class=>'recurring_day' %> Thu.
+      <%= check_box_tag 'recurringday5', Booking::RECURRING_DAY[4],recurringday_flags[4], :class=>'recurring_day' %> Fri.
+      <%= check_box_tag 'recurringday6', Booking::RECURRING_DAY[5],recurringday_flags[5], :class=>'recurring_day' %> Sat.
+      <%= check_box_tag 'recurringday7', Booking::RECURRING_DAY[6],recurringday_flags[6], :class=>'recurring_day' %> Sun. <br/>
     </p>
     <%= hidden_field_tag(:roomname, @room.name) %>
     <p>
