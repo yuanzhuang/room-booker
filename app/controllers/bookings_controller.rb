@@ -183,49 +183,6 @@ class BookingsController < ApplicationController
 
 
 
-    #dates = split_booking( @booking.startdate ,@recurringdays)
-
-    #flag = 0
-
-
-
-=begin
-
-    # save all splited booking
-    dates.each do |date|
-
-      newbooking = Booking.new(params[:booking])
-      newbooking.user_id = @booking_userid
-      newbooking.room_id = @booking_roomid
-      newbooking.guid = @guid
-      newbooking.summary = params[:summary]
-      newbooking.description= params[:description]
-      newbooking.invitees= params[:invitees]
-      newbooking.recurring =  params[:recurring]
-
-      newbooking.startdate = date
-
-      logger.info newbooking.inspect
-
-      if conflict_booking=check_conflicts(newbooking)
-        redirect_to :action=>"conflict", :controller=>"error_handler", :id=> conflict_booking.id, notice: "Conflict checking."
-        return
-      end
-
-      if newbooking.save
-        flag = flag + 1
-      else
-        # need error handler
-        logger.info "Error"
-      end
-    end
-
-=end
-
-
-
-
-
     respond_to do |format|
 
         if cookies[:user_name]
@@ -237,7 +194,7 @@ class BookingsController < ApplicationController
           cookies[:expires] = 1.years.from_now.utc
         end
 
-        #Notifier.notification_mail(@booking).deliver
+        Notifier.notification_mail(@booking).deliver
 
         format.html { redirect_to :action=>'show',:id=> @room.id ,:controller=>"rooms", notice: 'Booking was successfully created.' }
         format.json { render json: @booking, status: :created, location: @booking }
