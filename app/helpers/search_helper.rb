@@ -21,7 +21,9 @@ module SearchHelper
   def check_conflicts_with_room(booking, room, devices, capacity, recurring_days)
 
     if devices != room.devices
-      return true
+      if devices != 0
+        return true
+      end
     end
 
     logger.info "capacity is #{capacity.to_i} and rooms capacity is #{room.capacity}"
@@ -50,14 +52,14 @@ module SearchHelper
 
 
     bookings.each do |booking_at_room|
-=begin
-      if check_conflicts_with_specific booking,booking_at_room
-        return true
-      end
-=end
+
       splited_bookings.each do |splited_booking|
         if check_conflicts_with_specific splited_booking,booking_at_room
-          return true
+          hour_bits_1 = build_hour_bits splited_booking
+          hour_bits_2 = build_hour_bits booking_at_room
+          if hour_bits_1 & hour_bits_2 != 0
+            return true
+          end
         end
       end
 

@@ -106,13 +106,41 @@ module BookingsHelper
 
   def check_conflicts_with_specific(booking, other_booking)
     bits = build_day_bits2 booking
-    bits2 = build_day_bits booking,other_booking
 
-    if (bits & bits2)!=0
-      return true
-    else
-      return false
+    _days = Array.new
+    _bits = other_booking.recurringbits
+    7.times do |index|
+      _tmpbits = _bits >> index
+      if _tmpbits & 1 == 1
+        _days << index
+      end
     end
+    _dates = split_booking other_booking.startdate,_days
+
+    _bookings = Array.new
+    _dates.each do |_date|
+      logger.info ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _date is #{_date} <<<<<<<<<<<<<<<<<<<<"
+      _booking = Booking.new
+      _booking.id = other_booking.id
+      _booking.user_id = other_booking.user_id
+      _booking.room_id = other_booking.room_id
+      _booking.recurring = other_booking.recurring
+      _booking.startdate = _date
+      _booking.enddate = other_booking.enddate
+      _booking.starttime = other_booking.starttime
+      _booking.endtime = other_booking.endtime
+      _bookings << _booking
+      logger.info ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _date is #{_date} and booking\'s date is #{_booking.startdate}<<<<<<<<<<<<<<<<<<<<"
+    end
+
+    _bookings.each do |_tmpbooking|
+      bits2 = build_day_bits booking,_tmpbooking
+      if (bits & bits2)!=0
+        return true
+      end
+    end
+
+    return false
 
   end
 
