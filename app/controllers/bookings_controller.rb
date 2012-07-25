@@ -2,6 +2,7 @@
 class BookingsController < ApplicationController
 
   include BookingsHelper
+  include RoomsHelper
 
   # GET /bookings
   # GET /bookings.json
@@ -45,9 +46,22 @@ class BookingsController < ApplicationController
 
   # GET /bookings/1/edit
   def edit
-    @booking = Booking.find(params[:id])
+    _booking = Booking.find(params[:id])
+
+    @booking = build_up_booking _booking
+
     @room =  Room.find(params[:roomid])
     logger.info "#{Time.now} bookingid:#{params[:id]} roomid:#{params[:roomid]} edit"
+
+    @recurring_days = Array.new
+    bits = @booking.recurringbits
+
+    7.times do |index|
+      tmp_bits = bits >> index
+      if tmp_bits & 1 == 1
+        @recurring_days << index
+      end
+    end
 
 
     @year = 2012

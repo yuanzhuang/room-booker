@@ -1,4 +1,7 @@
 class RoomsController < ApplicationController
+
+  include RoomsHelper
+
   # To change this template use File | Settings | File Templates.
   def index
     @rooms = Room.all.sort { |a,b| a.capacity <=> b.capacity }
@@ -13,7 +16,19 @@ class RoomsController < ApplicationController
 
   def show
     @room = Room.find(params[:id])
-    @bookings = Booking.find_all_by_room_id(@room.id)
+
+    all_bookings = Booking.find_all_by_room_id(@room.id).sort{|a,b| a.created_at <=> b.created_at}
+    @bookings = Array.new
+    guid_array = Array.new
+
+    all_bookings.each do | single_basic_booking|
+      bookings_with_same_guid = Booking.find_all_by_guid(single_basic_booking.guid)
+      booking = build_up_booking_group guid_array,bookings_with_same_guid
+      if !booking.nil?
+        @bookings << booking
+        guid_array << single_basic_booking.guid
+      end
+    end
 
     respond_to do |format|
       format.html
