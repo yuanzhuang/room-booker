@@ -52,7 +52,7 @@
         <td align="center"><%= @expired %></td>
 
         <td align="center"><%= link_to "Edit", :action=>"edit", :id=> booking.id, :controller => "bookings" ,:roomid => @room.id %></td>
-        <td align="center"><%= button_to("Delete", {:action=>"destroy", :controller => "bookings", :id=>booking.id, :roomid=>@room.id}, :method=>:delete, :confirm=>"Are you sure?") %></td>
+        <td align="center"><%= button_to("Delete", {:action=>"destroy", :controller => "bookings", :id=>booking.id, :roomid=>@room.id}, :method=>:delete, :confirm=>"Are you sure?",:class=>"btn btn-danger btn-mini") %></td>
       </tr>
   <% end %>
   </tbody>

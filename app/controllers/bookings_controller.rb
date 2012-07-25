@@ -130,8 +130,6 @@ class BookingsController < ApplicationController
 
     @recurringdays = Array.new
 
-
-
     if !params[:recurringday1].nil?
        @recurringdays <<  0
     end
@@ -160,7 +158,18 @@ class BookingsController < ApplicationController
       @recurringdays << 6
     end
 
+    @booking.recurringbits = build_recurringbits @recurringdays
+
+
+    if conflict_booking = check_conflicts(@booking, @recurringdays)
+      redirect_to :action=>"conflict", :controller=>"error_handler", :id=> conflict_booking.id, notice: "Conflict checking."
+      return
+    else
+      @booking.save
+    end
+
     logger.info '============================'
+    logger.info @booking.recurringbits
     logger.info params[:recurringday1]
     logger.info params[:recurringday2]
     logger.info params[:recurringday3]
@@ -172,9 +181,15 @@ class BookingsController < ApplicationController
     logger.info @recurringdays.inspect
     logger.info '============================'
 
-    dates = split_booking( @booking.startdate ,@recurringdays)
 
-    flag = 0
+
+    #dates = split_booking( @booking.startdate ,@recurringdays)
+
+    #flag = 0
+
+
+
+=begin
 
     # save all splited booking
     dates.each do |date|
@@ -205,12 +220,14 @@ class BookingsController < ApplicationController
       end
     end
 
+=end
+
 
 
 
 
     respond_to do |format|
-      if flag == dates.size
+
         if cookies[:user_name]
           # do nothing
           cookies[:user_name] = params[:username]
@@ -220,14 +237,11 @@ class BookingsController < ApplicationController
           cookies[:expires] = 1.years.from_now.utc
         end
 
-        Notifier.notification_mail(@booking).deliver
+        #Notifier.notification_mail(@booking).deliver
 
         format.html { redirect_to :action=>'show',:id=> @room.id ,:controller=>"rooms", notice: 'Booking was successfully created.' }
         format.json { render json: @booking, status: :created, location: @booking }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @booking.errors, status: :unprocessable_entity }
-      end
+
     end
   end
 
@@ -240,9 +254,40 @@ class BookingsController < ApplicationController
     @room = Room.find_by_id(@booking.room_id)
     logger.info "#{Time.now} booking:#{@booking} room:#{@room} update"
 
+    recurringdays = Array.new
+
+    if !params[:recurringday1].nil?
+      recurringdays <<  0
+    end
+
+    if !params[:recurringday2].nil?
+      recurringdays << 1
+    end
+
+    if !params[:recurringday3].nil?
+      recurringdays << 2
+    end
+
+    if !params[:recurringday4].nil?
+      recurringdays << 3
+    end
+
+    if !params[:recurringday5].nil?
+      recurringdays << 4
+    end
+
+    if !params[:recurringday6].nil?
+      recurringdays << 5
+    end
+
+    if !params[:recurringday7].nil?
+      recurringdays << 6
+    end
+
+    updated_recurringbits = build_recurringbits recurringdays
 
     respond_to do |format|
-      if @booking.update_attributes(params[:booking].merge!({:summary=>params[:summary],:description=>params[:description],:invitees=>params[:invitees],:recurring=>params[:recurring]}))
+      if @booking.update_attributes(params[:booking].merge!({:summary=>params[:summary],:description=>params[:description],:invitees=>params[:invitees],:recurring=>params[:recurring], :recurringbits => updated_recurringbits}))
 
         format.html { redirect_to :action=>"show", :id=>@room.id, :controller=>"rooms"}
         format.json { head :no_content }

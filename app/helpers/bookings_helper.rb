@@ -23,7 +23,6 @@ module BookingsHelper
 
       if day < date_week_day
 
-        temp = Date.new
         interval = day - date_week_day + 7
         tempdate = date
         interval.times do
@@ -60,12 +59,49 @@ module BookingsHelper
   #
   # method to check the conflicts, all external requests invoke this methods
   #
-  def check_conflicts (booking)
+  def check_conflicts (candidate_booking, recurringdays)
+
+    bookings = pre_process candidate_booking,recurringdays
+
+    bookings.each do |booking|
+      maybe_return = check_conflicts_for_splited booking
+      if !maybe_return.nil?
+        return maybe_return
+      end
+    end
+    return nil
+  end
+
+  def pre_process booking,recurringdays
+
+    bookings = Array.new
+
+    dates = split_booking booking.startdate,recurringdays
+    dates.each do |date|
+      newbooking = Booking.new
+      newbooking.user_id = booking.user_id
+      newbooking.room_id = booking.room_id
+      newbooking.recurring = booking.recurring
+      newbooking.startdate = date
+      logger.info "~~~~~~~~~~~~~~~~~~~~~~"
+      logger.info date.inspect
+      logger.info "~~~~~~~~~~~~~~~~~~~~~~"
+      newbooking.enddate = booking.enddate
+      newbooking.starttime = booking.starttime
+      newbooking.endtime = booking.endtime
+
+      bookings << newbooking
+    end
+
+    return bookings
+
+  end
+
+  def check_conflicts_for_splited(booking)
     risk_bookings_1 = select_risk_bookings_pre booking
     risk_bookings_2 = select_risk_bookings booking,risk_bookings_1
     conflict_booking = select_risk_times booking,risk_bookings_2
     return conflict_booking
-
   end
 
   def check_conflicts_with_specific(booking, other_booking)
@@ -127,14 +163,47 @@ module BookingsHelper
 
     candidate_bits = build_day_bits2(candidate_booking)
 
-    bookings.each do |booking|
-      bits = build_day_bits(candidate_booking, booking)
-      #candidate_bits = build_day_bits(candidate_booking,booking)
 
-      if bits & candidate_bits != 0
-        logger.info "============ #{bits & candidate_bits}"
-        risk_bookings <<  booking
+    bookings.each do |booking|
+
+      _days = Array.new
+      _bits = booking.recurringbits
+      7.times do |index|
+        _tmpbits = _bits >> index
+        if _tmpbits & 1 == 1
+          _days << index
+        end
       end
+
+      _dates = split_booking booking.startdate,_days
+
+      _bookings = Array.new
+      _dates.each do |_date|
+        logger.info ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _date is #{_date} <<<<<<<<<<<<<<<<<<<<"
+        _booking = Booking.new
+        _booking.id = booking.id
+        _booking.user_id = booking.user_id
+        _booking.room_id = booking.room_id
+        _booking.recurring = booking.recurring
+        _booking.startdate = _date
+        _booking.enddate = booking.enddate
+        _booking.starttime = booking.starttime
+        _booking.endtime = booking.endtime
+        _bookings << _booking
+        logger.info ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _date is #{_date} and booking\'s date is #{_booking.startdate}<<<<<<<<<<<<<<<<<<<<"
+      end
+
+      _bookings.each do |_tmpbooking|
+        bits = build_day_bits(candidate_booking, _tmpbooking)
+
+        if bits & candidate_bits != 0
+          logger.info "============ #{bits & candidate_bits}"
+          risk_bookings <<  _tmpbooking
+        end
+      end
+
+
+
 
     end
 
@@ -175,6 +244,7 @@ module BookingsHelper
       day_bits = day_bits | mirror_bits
     end
 
+    logger.info "=================day bits is #{day_bits}==================================="
     logger.info "=================================exit======================================"
 
     return day_bits
@@ -185,8 +255,9 @@ module BookingsHelper
 
     day_bits = build_day_bits2(booking)
 
-    offside = booking.startdate - candidate_booking.startdate
 
+    offside = booking.startdate - candidate_booking.startdate
+    logger.info "-============ 1st date is #{booking.startdate} and the 2nd date is #{candidate_booking.startdate} ========"
     if offside > 0
       day_bits = day_bits << offside
     elsif offside < 0
@@ -369,6 +440,14 @@ module BookingsHelper
 
     return true
 
+  end
+
+  def build_recurringbits days
+    bits = 0
+    days.each do |day|
+      bits = bits | (1<<day)
+    end
+    return bits
   end
 
 end
