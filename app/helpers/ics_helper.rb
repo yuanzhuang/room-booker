@@ -60,7 +60,8 @@ module IcsHelper
   end
 
   def split_invitees(invitees)
-    invitee_a = invitees.split(",")
+    _invitees = invitees.gsub " ",""
+    invitee_a = _invitees.split(",")
     return invitee_a
   end
 

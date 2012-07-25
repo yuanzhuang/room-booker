@@ -447,7 +447,8 @@ module BookingsHelper
     #emails = /\w+([-_\.]\w+])*@\w+([-\.]\w+)*\.\w+(\.\w+([-_\.]\w+])*@\w+([-\.]\w+)*\.\w+)*/
     #emails =  /\w+((_|\.)\w+])*@\w+((_|\.)\w+)*\.\w+(\,\w+((_|\.)\w+])*@\w+((_|\.)\w+)*\.\w+)*/
 
-    invitee_mails = invitees.split ','
+    _invitees = invitees.gsub " ",""
+    invitee_mails = _invitees.split ','
     invitee_mails.each do |mail|
 
       logger.info "checking mail address "+mail
