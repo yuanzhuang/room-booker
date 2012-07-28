@@ -29,7 +29,7 @@
       <div class="control-group">
       <label class="control-label"  for="capacity">Capacity</label>
        <div class="controls">
-      <%= text_field_tag :capacity, params[:capacity],:class=>"input-xlarge" %>
+      <%= select_tag :capacity, options_for_select([['ALL',nil],['5','5'],['10','10'],['15','15']],'ALL'), %>
       </div>
       </div>
 
