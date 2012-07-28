@@ -19,7 +19,8 @@ class BookingsController < ApplicationController
   # GET /bookings/1.json
   def show
 
-    @bookings = Booking.find_all_by_user_id(params[:id])
+    #@bookings = Booking.find_all_by_user_id(params[:id])
+    @bookings = Booking.paginate :conditions=>["user_id = #{params[:id]}"],:page=>params[:page],:order=>'created_at desc', :per_page => 10
 
     if @bookings.nil?
       @bookings = Array.new

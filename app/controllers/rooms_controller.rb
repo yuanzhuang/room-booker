@@ -17,18 +17,7 @@ class RoomsController < ApplicationController
   def show
     @room = Room.find(params[:id])
 
-    all_bookings = Booking.find_all_by_room_id(@room.id).sort{|a,b| a.created_at <=> b.created_at}
-    @bookings = Array.new
-    guid_array = Array.new
-
-    all_bookings.each do | single_basic_booking|
-      bookings_with_same_guid = Booking.find_all_by_guid(single_basic_booking.guid)
-      booking = build_up_booking_group guid_array,bookings_with_same_guid
-      if !booking.nil?
-        @bookings << booking
-        guid_array << single_basic_booking.guid
-      end
-    end
+    @bookings = Booking.paginate :conditions=>["room_id = #{params[:id]}"],:page=>params[:page],:order=>'created_at desc', :per_page => 10
 
     respond_to do |format|
       format.html

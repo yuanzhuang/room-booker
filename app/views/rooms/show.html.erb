@@ -94,7 +94,11 @@
 
 </table>
 
+
+<p><%=  will_paginate @bookings,:renderer => BootstrapPagination::Rails %></p>
+
 <hr/>
 <%= link_to 'Book', new_booking_path(:roomid => @room.id) %>  |
 
 <%= link_to 'Back', rooms_path %>
+

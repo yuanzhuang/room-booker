@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://ruby.taobao.org/'
 
 gem 'rails', '3.2.6'
 
@@ -13,6 +13,9 @@ gem 'therubyracer'
 
 gem 'calendar_helper'
 gem 'ri_cal'
+
+gem 'will_paginate'
+gem 'will_paginate-bootstrap'
 
 # Gems used only for assets and not required
 # in production environments by default.
