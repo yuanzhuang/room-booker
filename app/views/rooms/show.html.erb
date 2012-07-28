@@ -57,6 +57,7 @@
 
 <table class="table table-bordered table-striped table-condensed" >
   <tr>
+    <th>operation</th>
     <th>Organizer</th>
     <th>Description</th>
     <th>invitees</th>
@@ -67,13 +68,14 @@
     <th>end-time</th>
     <th>recurring</th>
     <th>expired</th>
-    <th>EDIT</th>
-    <th>DELETE</th>
+
+    <th>operation</th>
   </tr>
 
 <% @bookings.each do |booking| %>
   <tr>
     <% @user = User.find_by_id(booking.user_id) %>
+    <td align="center"><%= button_to "Edit booking", {:action=>"edit", :id=> booking.id, :controller => "bookings" },:method=>:get, :class=>"btn btn-info btn-mini"%></td>
     <td  align="center"><%= @user.username %></td>
     <td align="center"><%= booking.description %></td>
     <td align="center"><%= booking.invitees %></td>
@@ -85,7 +87,7 @@
     <td align="center"><%= booking.recurring + "#{booking.recurringbits}" %></td>
     <td align="center"><%= (booking.enddate <= Date.current) %></td>
 
-    <td align="center"><%= link_to "Edit", :action=>"edit", :id=> booking.id, :controller => "bookings" ,:roomid => @room.id %></td>
+
     <td align="center"><%= button_to("Delete", {:action=>"destroy", :controller => "bookings", :id=>booking.id, :roomid=>@room.id}, :method=>:delete, :confirm=>"Are you sure?",:class=>"btn btn-danger btn-mini" ) %></td>
   </tr>
 <% end %>

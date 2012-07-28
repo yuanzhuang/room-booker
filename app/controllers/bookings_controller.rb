@@ -50,7 +50,7 @@ class BookingsController < ApplicationController
 
     @booking = build_up_booking _booking
 
-    @room =  Room.find(params[:roomid])
+    @room =  Room.find( @booking.room_id)
     logger.info "#{Time.now} bookingid:#{params[:id]} roomid:#{params[:roomid]} edit"
 
     @recurring_days = Array.new

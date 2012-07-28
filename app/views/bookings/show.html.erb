@@ -5,6 +5,7 @@
 <table class="table table-bordered table-striped table-condensed" >
   <thead>
   <tr>
+    <th>Operation</th>
     <th>Organizer</th>
     <th>Room</th>
     <th>Description</th>
@@ -19,8 +20,7 @@
 
     <th>expired?</th>
 
-    <th>EDIT</th>
-    <th>DELETE</th>
+    <th>Operation</th>
   </tr>
   </thead>
   <tbody>
@@ -28,6 +28,8 @@
       <tr>
         <% @user = User.find_by_id(booking.user_id) %>
         <% @room = Room.find_by_id(booking.room_id) %>
+        <td align="center"><%= button_to "Edit Booking", {:action=>"edit", :id=> booking.id, :controller => "bookings" },:method=>:get,:class=>"btn btn-mini btn-info" %></td>
+
         <td  align="center"><%= @user.username %></td>
         <td align="center"><%= @room.roomnum.to_s + ":"+@room.name+ " at Floor : " + @room.location %></td>
         <td align="center"><%= booking.description %></td>
@@ -48,7 +50,6 @@
         %>
         <td align="center"><%= @expired %></td>
 
-        <td align="center"><%= link_to "Edit", :action=>"edit", :id=> booking.id, :controller => "bookings" ,:roomid => @room.id %></td>
         <td align="center"><%= button_to("Delete", {:action=>"destroy", :controller => "bookings", :id=>booking.id, :roomid=>@room.id}, :method=>:delete, :confirm=>"Are you sure?",:class=>"btn btn-danger btn-mini") %></td>
       </tr>
   <% end %>
