@@ -27,6 +27,9 @@ RoomBooker::Application.routes.draw do
   match 'search' => 'search#search'
   match 'search/result' => 'search#result'
   match 'search/confirm' => 'search#confirm'
+  match 'bookings/approaching' => 'bookings#approaching'
+  match 'bookings/history' => 'bookings#history'
+  match 'bookings/all' => 'bookings#all'
 
   # Sample resource route with options:
   #   resources :products do

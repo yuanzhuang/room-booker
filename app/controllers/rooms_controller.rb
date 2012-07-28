@@ -17,7 +17,7 @@ class RoomsController < ApplicationController
   def show
     @room = Room.find(params[:id])
 
-    @bookings = Booking.paginate :conditions=>["room_id = #{params[:id]}"],:page=>params[:page],:order=>'startdate desc, starttime desc', :per_page => 10
+    @bookings = Booking.paginate :conditions=>["room_id = #{params[:id]} and enddate >= now()::date"],:page=>params[:page],:order=>'startdate desc, starttime desc', :per_page => 10
 
     respond_to do |format|
       format.html

@@ -1,59 +1,14 @@
 <p id="notice"><%= notice %></p>
 
-<h1> My Booking List : </h1>
+<fieldset>
+  <legend>My bookings</legend>
+</fieldset>
 
-<table class="table table-bordered table-striped table-condensed" >
-  <thead>
-  <tr>
-    <th>Operation</th>
-    <th>Organizer</th>
-    <th>Room</th>
-    <th>Description</th>
-    <th>invitees</th>
-    <th>start-date</th>
-    <th>end-date</th>
-    <th>Weekday</th>
-    <th>start-time</th>
-    <th>end-time</th>
-    <th>recurring</th>
-    <!--<th>guid</th>-->
 
-    <th>expired?</th>
+<%=  tabs_tag :open_tabs => {:class => "nav nav-tabs" }, :close_tabs => {:class => 'nav'} do |tab| %>
+    <%= tab.now 'approaching',bookings_approaching_path %>
+    <%= tab.history 'history', bookings_history_path %>
+    <%= tab.all 'all bookings', bookings_all_path %>
+<% end %>
 
-    <th>Operation</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% @bookings.each do |booking| %>
-      <tr>
-        <% @user = User.find_by_id(booking.user_id) %>
-        <% @room = Room.find_by_id(booking.room_id) %>
-        <td align="center"><%= button_to "Edit Booking", {:action=>"edit", :id=> booking.id, :controller => "bookings" },:method=>:get,:class=>"btn btn-mini btn-info" %></td>
-
-        <td  align="center"><%= @user.username %></td>
-        <td align="center"><%= @room.roomnum.to_s + ":"+@room.name+ " at Floor : " + @room.location %></td>
-        <td align="center"><%= booking.description %></td>
-        <td align="center"><%= booking.invitees %></td>
-        <td align="center"><%= booking.startdate %></td>
-        <td align="center"><%= booking.enddate %></td>
-        <td align="center"><%= booking.startdate.to_datetime.strftime "%A" %></td>
-        <td align="center"><%= booking.starttime.strftime "%H:%M" %></td>
-        <td align="center"><%= booking.endtime.strftime "%H:%M" %></td>
-        <td align="center"><%= booking.recurring %></td>
-        <!--<td align="center"><%= booking.guid %></td> -->
-        <%
-            if booking.enddate < Date.current
-                @expired = "expired"
-            else
-                @expired = "not expired"
-            end
-        %>
-        <td align="center"><%= @expired %></td>
-
-        <td align="center"><%= button_to("Delete", {:action=>"destroy", :controller => "bookings", :id=>booking.id, :roomid=>@room.id}, :method=>:delete, :confirm=>"Are you sure?",:class=>"btn btn-danger btn-mini") %></td>
-      </tr>
-  <% end %>
-  </tbody>
- </table>
-
-<p><%=  will_paginate @bookings,:renderer => BootstrapPagination::Rails %></p>
+<%=  render "bookingtable" %>

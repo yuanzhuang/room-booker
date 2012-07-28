@@ -1,0 +1,66 @@
+
+<p>The name of current tab is <%= current_tab %>.</p>
+
+<table class="table table-bordered table-striped table-condensed" >
+  <thead>
+  <tr>
+    <th>Operation</th>
+    <th>Organizer</th>
+    <th>Room</th>
+    <th>Description</th>
+    <th>invitees</th>
+    <th>start-date</th>
+    <th>end-date</th>
+    <th>Weekday</th>
+    <th>start-time</th>
+    <th>end-time</th>
+    <th>recurring</th>
+    <!--<th>guid</th>-->
+
+    <th>expired?</th>
+
+    <th>Operation</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @bookings.each do |booking| %>
+      <tr>
+        <% @user = User.find_by_id(booking.user_id) %>
+        <% @room = Room.find_by_id(booking.room_id) %>
+
+        <%
+           if booking.enddate < Date.current
+             @expired = "expired"
+             edit_button_str = "Rebooking"
+             edit_button_style = "btn "
+           else
+             @expired = "not expired"
+             edit_button_str = "Edit Booking"
+             edit_button_style = "btn btn-info"
+           end
+        %>
+
+
+        <td align="center"><%= button_to edit_button_str, {:action=>"edit", :id=> booking.id, :controller => "bookings" },:method=>:get,:class=>edit_button_style %></td>
+
+        <td  align="center"><%= @user.username %></td>
+        <td align="center"><%= @room.roomnum.to_s + ":"+@room.name+ " at Floor : " + @room.location %></td>
+        <td align="center"><%= booking.description %></td>
+        <td align="center"><%= booking.invitees %></td>
+        <td align="center"><%= booking.startdate %></td>
+        <td align="center"><%= booking.enddate %></td>
+        <td align="center"><%= booking.startdate.to_datetime.strftime "%A" %></td>
+        <td align="center"><%= booking.starttime.strftime "%H:%M" %></td>
+        <td align="center"><%= booking.endtime.strftime "%H:%M" %></td>
+        <td align="center"><%= booking.recurring %></td>
+        <!--<td align="center"><%= booking.guid %></td> -->
+
+        <td align="center"><%= @expired %></td>
+
+        <td align="center"><%= button_to("Delete", {:action=>"destroy", :controller => "bookings", :id=>booking.id, :roomid=>@room.id}, :method=>:delete, :confirm=>"Are you sure?",:class=>"btn btn-danger ") %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<p><%=  will_paginate @bookings,:renderer => BootstrapPagination::Rails %></p>

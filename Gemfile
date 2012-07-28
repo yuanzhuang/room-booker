@@ -17,6 +17,8 @@ gem 'ri_cal'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 
+gem 'tabs_on_rails'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

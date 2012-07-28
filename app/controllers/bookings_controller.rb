@@ -3,6 +3,10 @@ class BookingsController < ApplicationController
 
   include BookingsHelper
   include RoomsHelper
+  include UsersHelper
+
+
+
 
   # GET /bookings
   # GET /bookings.json
@@ -19,8 +23,18 @@ class BookingsController < ApplicationController
   # GET /bookings/1.json
   def show
 
-    #@bookings = Booking.find_all_by_user_id(params[:id])
-    @bookings = Booking.paginate :conditions=>["user_id = #{params[:id]}"],:page=>params[:page],:order=>'startdate desc, starttime desc', :per_page => 10
+    @user_id = current_user
+    logger.info "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% #{params[:id] == "all"}"
+    case params[:id]
+      when "approaching"
+        @bookings = Booking.paginate :conditions=>[ "user_id = #{@user_id} and enddate >= now()::date"],:page=>params[:page],:order=>'startdate desc, starttime desc', :per_page => 10
+      when "history"
+        @bookings = Booking.paginate :conditions=>["user_id = #{@user_id} and enddate < now()::date"],:page=>params[:page],:order=>'startdate desc, starttime desc', :per_page => 10
+      when "all"
+        @bookings = Booking.paginate :conditions=>["user_id = #{@user_id}"],:page=>params[:page],:order=>'startdate desc, starttime desc', :per_page => 10
+      else
+        @bookings = Booking.paginate :conditions=>["user_id = #{@user_id}"],:page=>params[:page],:order=>'startdate desc, starttime desc', :per_page => 10
+    end
 
     if @bookings.nil?
       @bookings = Array.new
@@ -278,4 +292,17 @@ class BookingsController < ApplicationController
 
 
   end
+
+  def approaching
+    redirect_to  :action=>"show", :id=> 1, :controller=>"bookings"
+  end
+
+  def history
+    redirect_to  :action=>"show", :id=> 2, :controller=>"bookings"
+  end
+
+  def all
+    redirect_to  :action=>"show", :id=> 3, :controller=>"bookings"
+  end
+
 end
