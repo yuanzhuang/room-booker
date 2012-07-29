@@ -24,7 +24,6 @@ class BookingsController < ApplicationController
   def show
 
     @user_id = current_user
-    logger.info "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% #{params[:id] == "all"}"
     case params[:id]
       when "approaching"
         @bookings = Booking.paginate :conditions=>[ "user_id = #{@user_id} and enddate >= now()::date"],:page=>params[:page],:order=>'startdate desc, starttime desc', :per_page => 10
@@ -51,7 +50,6 @@ class BookingsController < ApplicationController
   def new
     @booking = Booking.new
     @room = Room.find(params[:roomid])
-    logger.info "#{Time.now} #{params[:roomid]} create"
 
     respond_to do |format|
       format.html # new.html.erb
@@ -62,11 +60,11 @@ class BookingsController < ApplicationController
   # GET /bookings/1/edit
   def edit
     _booking = Booking.find(params[:id])
-
     @booking = build_up_booking _booking
+    access_ip = request.remote_ip
+    access_user = current_user
 
     @room =  Room.find( @booking.room_id)
-    logger.info "#{Time.now} bookingid:#{params[:id]} roomid:#{params[:roomid]} edit"
 
     @recurring_days = Array.new
     bits = @booking.recurringbits
@@ -78,16 +76,13 @@ class BookingsController < ApplicationController
       end
     end
 
-
-    @year = 2012
-    @month =   7
-
     @user_cookie = User.find(@booking.user_id).username
-    #puts cookies[:user_name]
-    #puts @user_cookie
+
     if( cookies[:user_name] != @user_cookie)
+      logger.info "#{Time.now} #{access_user} @ #{access_ip} try to edit booking #{params[:id]}"
       redirect_to("/error")
     else
+      logger.info "#{Time.now} bookingid:#{params[:id]} roomid:#{params[:roomid]} edited by #{access_user} @ #{access_ip}"
       respond_to do |format|
         format.html # new.html.erb
         format.json { render json: @booking }
@@ -102,7 +97,6 @@ class BookingsController < ApplicationController
 
     # validating the input username
     tmp_user = User.find_by_username(params[:username])
-    logger.info "#{Time.now} #{params[:username]} create"
 
     if tmp_user.nil?
       redirect_to "/validationerror"
@@ -126,7 +120,6 @@ class BookingsController < ApplicationController
 
     # check the start and _end in date and time
     if !check_date_and_time(@booking)
-      #redirect_to "/validationerror"
       redirect_to :action=>"validation", :controller=>"error_handler", :id=> 2
       return
     end
@@ -200,7 +193,7 @@ class BookingsController < ApplicationController
 
     respond_to do |format|
 
-        if cookies[:user_name]
+      if cookies[:user_name]
           # do nothing
           cookies[:user_name] = params[:username]
           cookies[:expires] = 1.years.from_now.utc
@@ -209,6 +202,8 @@ class BookingsController < ApplicationController
           cookies[:expires] = 1.years.from_now.utc
         end
 
+        access_ip = request.remote_ip
+        logger.info "#{Time.now} #{params[:username]} at #{access_ip} created booking"
         Notifier.notification_mail(@booking).deliver
 
         format.html { redirect_to :action=>'show',:id=> @room.id ,:controller=>"rooms", notice: 'Booking was successfully created.' }
@@ -224,7 +219,7 @@ class BookingsController < ApplicationController
     @booking = Booking.find(params[:id])
 
     @room = Room.find_by_id(@booking.room_id)
-    logger.info "#{Time.now} booking:#{@booking} room:#{@room} update"
+
 
     recurringdays = Array.new
 
@@ -260,6 +255,8 @@ class BookingsController < ApplicationController
 
     respond_to do |format|
       if @booking.update_attributes(params[:booking].merge!({:summary=>params[:summary],:description=>params[:description],:invitees=>params[:invitees],:recurring=>params[:recurring], :recurringbits => updated_recurringbits}))
+        access_ip = request.remote_ip
+        logger.info "#{Time.now} booking:#{@booking} room:#{@room} updated by #{access_ip}"
 
         format.html { redirect_to :action=>"show", :id=>@room.id, :controller=>"rooms"}
         format.json { head :no_content }
@@ -276,13 +273,14 @@ class BookingsController < ApplicationController
     @booking = Booking.find(params[:id])
     @room = Room.find_by_id(@booking.room_id)
     @user_cookie = User.find(@booking.user_id).username
-    logger.info "#{Time.now} booking:#{@booking} room:#{@room} delete"
-
+    access_ip = request.remote_ip
     if cookies[:user_name] != @user_cookie
+      logger.info "#{Time.now} #{access_ip} tried to delete booking#{params[:id]}"
        redirect_to("/error")
     else
       @booking.destroy
-
+      access_ip = request.remote_ip
+      logger.info "#{Time.now} booking:#{params[:id]} room:#{@room.id} deleted by #{access_ip} "
       respond_to do |format|
         #format.html { redirect_to bookings_url }
         format.html {redirect_to :action=>"show", :id=>@room.id, :controller=>"rooms"}
