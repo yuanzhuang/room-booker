@@ -176,21 +176,6 @@ class BookingsController < ApplicationController
       @booking.save
     end
 
-    logger.info '============================'
-    logger.info @booking.recurringbits
-    logger.info params[:recurringday1]
-    logger.info params[:recurringday2]
-    logger.info params[:recurringday3]
-    logger.info params[:recurringday4]
-    logger.info params[:recurringday5]
-    logger.info params[:recurringday6]
-    logger.info params[:recurringday7]
-
-    logger.info @recurringdays.inspect
-    logger.info '============================'
-
-
-
     respond_to do |format|
 
       if cookies[:user_name]
@@ -252,6 +237,13 @@ class BookingsController < ApplicationController
     end
 
     updated_recurringbits = build_recurringbits recurringdays
+
+    @booking.recurringbits = updated_recurringbits
+
+    if conflict_booking = check_conflicts(@booking, recurringdays)
+      redirect_to :action=>"conflict", :controller=>"error_handler", :id=> conflict_booking.id, notice: "Conflict checking."
+      return
+    end
 
     respond_to do |format|
       if @booking.update_attributes(params[:booking].merge!({:summary=>params[:summary],:description=>params[:description],:invitees=>params[:invitees],:recurring=>params[:recurring], :recurringbits => updated_recurringbits}))
