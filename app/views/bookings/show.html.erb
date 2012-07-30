@@ -1,11 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <fieldset>
-  <legend>My bookings</legend>
+  <legend class="alert alert-info">My bookings</legend>
 </fieldset>
 
 
-<%=  tabs_tag :open_tabs => {:class => "nav nav-tabs" }, :close_tabs => {:class => 'nav'} do |tab| %>
+<%=  tabs_tag :open_tabs => {:class => "nav nav-tabs" } do |tab| %>
     <%= tab.now 'approaching',bookings_approaching_path %>
     <%= tab.history 'history', bookings_history_path %>
     <%= tab.all 'all bookings', bookings_all_path %>

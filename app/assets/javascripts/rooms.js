@@ -7,7 +7,7 @@
  */
 
 $(document).ready(function(){
-    $(".form-actions").click(function(){
+    $(".alert-info").click(function(){
         $(".search").slideToggle("slow");
     });
 });
