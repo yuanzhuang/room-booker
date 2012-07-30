@@ -50,9 +50,6 @@ module RoomsHelper
       bits = bits | (1 << offset)
       logger.info bits
     end
-    logger.info '-----------------------------------------------------------------------------------'
-    logger.info bits
-    logger.info '-----------------------------------------------------------------------------------'
     return bits
   end
 

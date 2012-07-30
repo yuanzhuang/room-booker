@@ -1,9 +1,5 @@
 module IcsHelper
 
-  def generate_ics(bookings)
-
-  end
-
   def build_ics_location(room)
     location = room.roomnum.to_s+":"+room.name+":"+room.cname+" at Floor : "+room.location
     return location

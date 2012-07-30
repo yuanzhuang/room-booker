@@ -3,13 +3,7 @@ module BookingsHelper
   # this method aims at spliting one complex booking into array of date, the element of this array is the start fo each
   # single day
   def split_booking (date, days)
-
-    logger.info '============ in split booking ==============='
-    logger.info days.inspect
-
-
     return_dates = Array.new
-
 
     if days.size == 0
       return_dates << date
@@ -18,8 +12,6 @@ module BookingsHelper
     date_week_day = date.days_to_week_start    # 0-6
 
     days.each do |day|
-
-      logger.info "date_week_day is #{day}"
 
       if day < date_week_day
 
@@ -47,11 +39,6 @@ module BookingsHelper
 
     end
 
-
-    logger.info return_dates.inspect
-
-
-    logger.info "============== exit ===================="
     return return_dates
 
   end
@@ -83,9 +70,6 @@ module BookingsHelper
       newbooking.room_id = booking.room_id
       newbooking.recurring = booking.recurring
       newbooking.startdate = date
-      logger.info "~~~~~~~~~~~~~~~~~~~~~~"
-      logger.info date.inspect
-      logger.info "~~~~~~~~~~~~~~~~~~~~~~"
       newbooking.enddate = booking.enddate
       newbooking.starttime = booking.starttime
       newbooking.endtime = booking.endtime
@@ -119,7 +103,6 @@ module BookingsHelper
 
     _bookings = Array.new
     _dates.each do |_date|
-      logger.info ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _date is #{_date} <<<<<<<<<<<<<<<<<<<<"
       _booking = Booking.new
       _booking.id = other_booking.id
       _booking.user_id = other_booking.user_id
@@ -130,7 +113,6 @@ module BookingsHelper
       _booking.starttime = other_booking.starttime
       _booking.endtime = other_booking.endtime
       _bookings << _booking
-      logger.info ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _date is #{_date} and booking\'s date is #{_booking.startdate}<<<<<<<<<<<<<<<<<<<<"
     end
 
     _bookings.each do |_tmpbooking|
@@ -146,7 +128,6 @@ module BookingsHelper
 
 
   def select_risk_bookings_pre(candidate_booking)
-    logger.info "============== in select risk bookign pre =============="
      bookings = Booking.find_all_by_room_id(candidate_booking.room_id)
 
      if bookings.nil?
@@ -176,16 +157,11 @@ module BookingsHelper
        end
      end
 
-    logger.info risk_bookings.inspect
-
-    logger.info " ============== exit ================"
     return risk_bookings
 
   end
 
   def select_risk_bookings(candidate_booking, bookings)
-
-    logger.info "================== enter select_risk_bookings ====================="
 
     risk_bookings = Array.new
 
@@ -207,7 +183,6 @@ module BookingsHelper
 
       _bookings = Array.new
       _dates.each do |_date|
-        logger.info ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _date is #{_date} <<<<<<<<<<<<<<<<<<<<"
         _booking = Booking.new
         _booking.id = booking.id
         _booking.user_id = booking.user_id
@@ -218,14 +193,12 @@ module BookingsHelper
         _booking.starttime = booking.starttime
         _booking.endtime = booking.endtime
         _bookings << _booking
-        logger.info ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _date is #{_date} and booking\'s date is #{_booking.startdate}<<<<<<<<<<<<<<<<<<<<"
       end
 
       _bookings.each do |_tmpbooking|
         bits = build_day_bits(candidate_booking, _tmpbooking)
 
         if bits & candidate_bits != 0
-          logger.info "============ #{bits & candidate_bits}"
           risk_bookings <<  _tmpbooking
         end
       end
@@ -235,16 +208,11 @@ module BookingsHelper
 
     end
 
-    logger.info "The risk bookings is "+risk_bookings.inspect
-
-    logger.info " ============================ exit ================================="
-
     return risk_bookings
 
   end
 
   def build_day_bits2(booking)
-    logger.info " ========================enter build_day_bits2 ==========================="
     duration_days = booking.enddate - booking.startdate + 1
     duration_times = 1
     duration_intervals = 1
@@ -272,9 +240,6 @@ module BookingsHelper
       day_bits = day_bits | mirror_bits
     end
 
-    logger.info "=================day bits is #{day_bits}==================================="
-    logger.info "=================================exit======================================"
-
     return day_bits
 
   end
@@ -285,7 +250,6 @@ module BookingsHelper
 
 
     offside = booking.startdate - candidate_booking.startdate
-    logger.info "-============ 1st date is #{booking.startdate} and the 2nd date is #{candidate_booking.startdate} ========"
     if offside > 0
       day_bits = day_bits << offside
     elsif offside < 0
@@ -346,25 +310,14 @@ module BookingsHelper
 
   def select_risk_times(candidate_booking, bookings)
 
-    logger.info "====================== enter select risk times ======================="
-
     candidate_bits = build_hour_bits( candidate_booking)
-
-
 
     bookings.each do |booking|
       bits = build_hour_bits booking
       if bits & candidate_bits != 0
-
-        logger.info " ===> #{bits}"
-        logger.info " ===> #{candidate_bits}"
-        logger.info " ===> #{bits & candidate_bits}"
-        logger.info " ================================ exit1 ====================================="
         return booking
       end
     end
-
-    logger.info "======================exit2 ============================================"
 
     return nil
 
@@ -441,25 +394,17 @@ module BookingsHelper
 
   # invitees should be in good formated. like mail,mail,mail
   def check_invitees(invitees)
-    #invitees = booking.invitees
     email_pattern = /\w+((_|\.)\w+)*@\w+((_|\.)\w+)*\.\w+/
-
-    #emails = /\w+([-_\.]\w+])*@\w+([-\.]\w+)*\.\w+(\.\w+([-_\.]\w+])*@\w+([-\.]\w+)*\.\w+)*/
-    #emails =  /\w+((_|\.)\w+])*@\w+((_|\.)\w+)*\.\w+(\,\w+((_|\.)\w+])*@\w+((_|\.)\w+)*\.\w+)*/
 
     _invitees = invitees.gsub " ",""
     invitee_mails = _invitees.split ','
     invitee_mails.each do |mail|
 
-      logger.info "checking mail address "+mail
-
       extracted_mail = email_pattern.match mail
       if extracted_mail.nil?
-        logger.info "No match for "+mail.inspect
         return false
       else
         if extracted_mail.to_s != mail
-          logger.info "Can match for "+mail.inspect
           return false
         end
       end
