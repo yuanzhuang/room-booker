@@ -16,6 +16,14 @@ class SearchController < ApplicationController
 
     @required_booking = Booking.new params[:booking]
 
+    # start-end date range
+
+    start_date_str = params[:startdate]
+    end_date_str = params[:enddate]
+
+    @required_booking.startdate = Date.strptime(start_date_str,"%m/%d/%Y")
+    @required_booking.enddate = Date.strptime(end_date_str,"%m/%d/%Y")
+
     # device requirements
 
     logger.info "Search available rooms with the arguments :"+@required_booking.to_s
