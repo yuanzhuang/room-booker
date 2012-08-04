@@ -6,24 +6,27 @@
 
       <div class="control-group">
 
-      <label class="control-label" for="startdate">Start Date</label>
-       <div class="controls">
-       <%= date_select :booking,  "startdate", :order=>[:year,:month,:day]%>
-       </div>
+      <div class="alert alert-error" id="search_alert">
+        <strong> zZ zZ </strong>
+      </div>
+      <div class="controls">
+        <label class="control-label" for="start_date">Start Date</label>
+        <%= text_field_tag :startdate, params[:startdate], :id => "search_select_start_date" %>
+      </div>
 
-      <label class="control-label" for="enddate">End Date</label>
-       <div class="controls">
-       <%= date_select :booking, "enddate",:order=>[:year,:month,:day]%>
-     </div>
+      <div class="controls">
+        <label class="control-label" for="end_date">End Date</label>
+        <%= text_field_tag :enddate, params[:enddate], :id=> "search_select_end_date" %>
+      </div>
 
       <label class="control-label" for="starttime">Start Time</label>
        <div class="controls">
-      <%= time_select :booking, "starttime" ,{:minute_step => 30}%>
+      <%= time_select :booking, "starttime" ,{:minute_step => 30}, :id => "search_select_start_time" %>
       </div>
 
       <label class="control-label" for="endtime">End Time</label>
        <div class="controls">
-      <%= time_select :booking, "endtime" ,{:minute_step => 30}%>
+      <%= time_select :booking, "endtime" ,{:minute_step => 30}, :id => "search_select_end_time" %>
       </div>
      </div>
       <div class="control-group">
