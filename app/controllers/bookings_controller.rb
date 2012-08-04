@@ -112,6 +112,9 @@ class BookingsController < ApplicationController
 
     @booking = Booking.new(params[:booking])
 
+    @booking.startdate = Date.strptime(params[:new_booking_start_date], "%m/%d/%Y");
+    @booking.enddate = Date.strptime(params[:new_booking_end_date],"%m/%d/%Y");
+
     # check the invitees is good formatted
     if !check_invitees(params[:invitees])
       redirect_to :action=>"validation", :controller=>"error_handler", :id=> 1
@@ -202,6 +205,9 @@ class BookingsController < ApplicationController
   def update
 
     @booking = Booking.find(params[:id])
+    @booking.startdate = params[:edit_booking_start_date]
+    @booking.enddate = params[:edit_booking_end_date]
+
 
     @room = Room.find_by_id(@booking.room_id)
 

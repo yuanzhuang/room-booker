@@ -140,7 +140,8 @@ class SearchController < ApplicationController
       @recurring_days << 6
     end
 
-
+    @confirm_start_date = params[:startdate]
+    @confirm_end_date = params[:enddate]
 
     respond_to do |format|
       format.html

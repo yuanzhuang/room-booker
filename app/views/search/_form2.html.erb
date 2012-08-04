@@ -23,11 +23,11 @@
     </p>
     <p>
       <label for="startdate">Start Date</label>
-      <%= date_select :booking,  "startdate", :order=>[:year,:month,:day]%>
+      <%= text_field_tag :new_booking_start_date, params[:new_booking_start_date]=@confirm_start_date, :id => "confirm_select_start_date" %>
     </p>
     <p>
       <label for="enddate">End Date</label>
-      <%= date_select :booking, "enddate",:order=>[:year,:month,:day]%>
+      <%= text_field_tag :new_booking_end_date, params[:new_booking_end_date]=@confirm_end_date, :id => "confirm_select_end_date" %>
     </p>
     <p>
       <label for="starttime">Start Time</label>

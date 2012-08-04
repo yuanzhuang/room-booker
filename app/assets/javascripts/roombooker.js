@@ -20,6 +20,8 @@ $(document).ready(function(){
     $("#search_alert").hide();
     $("#search_select_start_date").val(search_selected_start_date_str);
     $("#search_select_end_date").val(search_selected_start_date_str);
+    $("#new_booking_select_start_date").val(search_selected_start_date_str);
+    $("#new_booking_select_end_date").val(search_selected_start_date_str);
 
     $("#search_select_start_date").datepicker()
         .on('changeDate',function(ev){
@@ -55,6 +57,16 @@ $(document).ready(function(){
             }
 
         });
+
+    $("#confirm_select_start_date").datepicker();
+
+    $("#confirm_select_end_date").datepicker();
+
+    $("#new_booking_select_start_date").datepicker();
+    $("#new_booking_select_end_date").datepicker();
+
+    $("#edit_select_start_date").datepicker();
+    $("#edit_select_end_date").datepicker();
 
     $(".alert-info").click(function(){
         $(".search").slideToggle("slow");
