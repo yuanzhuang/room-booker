@@ -47,10 +47,10 @@
       <div class="control-group">
       <label class="controls" for="recurring">Recurring Type</label>
       <div class="controls">
-      <%= radio_button_tag 'recurring',  Booking::RECURRING_TYPE[0], true, :class=> 'recurring_type' %> NO_RECURRING
-      <%= radio_button_tag 'recurring',   Booking::RECURRING_TYPE[1], false, :class=> 'recurring_type' %> DAILY
-      <%= radio_button_tag 'recurring',   Booking::RECURRING_TYPE[2], false, :class=> 'recurring_type'  %> WEEKLY
-      <%= radio_button_tag 'recurring',  Booking::RECURRING_TYPE[3], false,:class=> 'recurring_type'  %> BI-WEEKLY
+      <%= radio_button_tag 'recurring',  Booking::RECURRING_TYPE[0], false, :class=> 'search_recurring_type' %> NO_RECURRING
+      <%= radio_button_tag 'recurring',   Booking::RECURRING_TYPE[1], true, :class=> 'search_recurring_type' %> DAILY
+      <%= radio_button_tag 'recurring',   Booking::RECURRING_TYPE[2], false, :class=> 'search_recurring_type'  %> WEEKLY
+      <%= radio_button_tag 'recurring',  Booking::RECURRING_TYPE[3], false,:class=> 'search_recurring_type'  %> BI-WEEKLY
       </div>
       </div>
 

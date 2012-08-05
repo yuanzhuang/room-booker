@@ -72,5 +72,22 @@ $(document).ready(function(){
         $(".search").slideToggle("slow");
     });
 
+    $("input[type=radio].search_recurring_type").change(function(){
+        recurring_type = search_get_selected_recurring_type();
+        if(recurring_type == 'NO_RECURRING'){
+            search_selected_start_date_str = get_date_str(search_selected_start_date);
+            $("#search_select_end_date").attr("value",search_selected_start_date_str);
+        }else if (recurring_type == 'DAILY'){
+            // do nothing
+        }else if (recurring_type == 'WEEKLY'){
+            // TODO: checking the duration more than one week, if not, just the start date
+        }else if (recurring_type == 'BI_WEEKLY'){
+            // TODO: same as above
+        }else if (recurring_type == 'WORKDAY'){
+            // TODO: automated make the checkcbox recurring_days Mon.~Fri. selected
+        }
+
+    });
+
 
 });
