@@ -396,8 +396,7 @@ module BookingsHelper
   def check_invitees(invitees)
     email_pattern = /\w+((_|\.)\w+)*@\w+((_|\.)\w+)*\.\w+/
 
-    _invitees = invitees.gsub " ",""
-    invitee_mails = _invitees.split ','
+    invitee_mails = split_invitees invitees
     invitee_mails.each do |mail|
 
       extracted_mail = email_pattern.match mail
@@ -414,6 +413,12 @@ module BookingsHelper
 
     return true
 
+  end
+
+  def split_invitees(invitees)
+    _invitees = invitees.gsub " ",""
+    invitee_mails = _invitees.split ','
+    invitee_mails
   end
 
   def build_recurringbits days
