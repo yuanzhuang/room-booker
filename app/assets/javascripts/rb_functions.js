@@ -18,3 +18,9 @@ function search_get_selected_recurring_type(){
     return recurring_type;
 }
 
+
+
+function get_all_emails(){
+
+}
+

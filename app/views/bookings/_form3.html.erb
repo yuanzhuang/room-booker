@@ -18,7 +18,9 @@
     </p>
     <p>
       <label for="invitees">Invitees</label>
-      <%= text_field_tag :invitees, @booking.invitees,:class=>"input-xlarge" %>
+      <% mail_addresses = User.all.inject([])  { |ret,user| ret << user.username } %>
+      <%= text_field_tag :invitees, @booking.invitees, { :id => "invitees",:'data-mode' => "multiple",:'data-provide'=>"typeahead", :'data-items'=>8, :'data-source' => mail_addresses.inspect} %>
+
     </p>
 
 
