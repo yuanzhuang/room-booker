@@ -1,0 +1,30 @@
+<fieldset>
+  <legend> Statistic </legend>
+
+  <table class="table table-bordered table-striped table-condensed" border="1" align="left" cellspacing="1" cellpadding="6">
+    <thred>
+      <tr>
+        <th>#</th>
+        <th>Metric</th>
+        <th>Metric Value</th>
+      </tr>
+    </thred>
+
+    <tbody>
+    <% @usage_statistics.each do |statistic| %>
+        <tr>
+          <%
+            if statistic.statistic_type == 1
+              item = Room.find_by_id(statistic.room_id).name
+            elsif statistic.statistic_type == 2
+              item = "TODO"
+            end
+          %>
+          <td align="center"><%= item %></td>
+          <td align="center"><%= statistic.metric %></td>
+          <td align="center"><%= statistic.metric_value %></td>
+        </tr>
+        </tbody>
+    <% end %>
+    </table>
+</fieldset>

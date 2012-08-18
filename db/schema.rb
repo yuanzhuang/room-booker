@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120725060635) do
+ActiveRecord::Schema.define(:version => 20120818070206) do
 
   create_table "bookings", :force => true do |t|
     t.integer  "room_id"
@@ -42,6 +42,23 @@ ActiveRecord::Schema.define(:version => 20120725060635) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "devices"
+  end
+
+  create_table "statistic_logs", :force => true do |t|
+    t.string   "trigger_source"
+    t.string   "cost_time"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "usage_statistics", :force => true do |t|
+    t.integer  "room_id"
+    t.integer  "user_id"
+    t.integer  "statistic_type"
+    t.string   "metric"
+    t.string   "metric_value"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "users", :force => true do |t|
