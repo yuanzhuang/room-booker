@@ -31,7 +31,7 @@ RoomBooker::Application.routes.draw do
   match 'bookings/history' => 'bookings#history'
   match 'bookings/all' => 'bookings#all'
   match 'report/report' => 'report#report'
-
+  match 'search/goodluck' => 'search#goodluck'
   # Sample resource route with options:
   #   resources :products do
   #     member do

@@ -1,0 +1,117 @@
+<fieldset>
+  <legend> Available Room(s) near NOW ! </legend>
+
+  <table class="table table-bordered table-striped table-condensed" border="1" align="left" cellspacing="1" cellpadding="6">
+    <thred>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Cname</th>
+        <th>Capacity</th>
+        <th>Comments</th>
+        <th>Location</th>
+        <th>Book IT</th>
+      </tr>
+    </thred>
+
+    <tbody>
+    <% unless @rooms_g1.size == 0 %>
+    <tr>
+      <td><%= @g1_duration %></td>
+    </tr>
+    <% end %>
+    <% @rooms_g1.each do |room| %>
+        <tr>
+          <td align="center"><%= room.roomnum %></td>
+          <td align="center"><%= room.name %></td>
+          <td align="center"><%= room.cname %></td>
+          <td align="center"><%= room.capacity %></td>
+          <%
+             devices_str = ""
+             devices = room.devices
+             if (devices & 1) == 1
+               devices_str = devices_str + " Projector "
+             end
+             devices = devices >> 1
+             if (devices & 1) == 1
+               devices_str = devices_str + " Telephone "
+             end
+             devices = devices >> 1
+             if (devices & 1) == 1
+               devices_str = devices_str + " Television "
+             end
+
+          %>
+          <td><%= devices_str %></td>
+          <td align="center"><%= room.location %></td>
+          <td align="center"><%= link_to 'Book', search_confirm_path(:room=> room,  :params => params)  %></td>
+        </tr>
+        <% end %>
+        <% unless @rooms_g2.size == 0 %>
+        <tr>
+          <td><%= @g2_duration %></td>
+        </tr>
+        <% end %>
+        <% @rooms_g2.each do |room| %>
+            <tr>
+              <td align="center"><%= room.roomnum %></td>
+              <td align="center"><%= room.name %></td>
+              <td align="center"><%= room.cname %></td>
+              <td align="center"><%= room.capacity %></td>
+              <%
+                 devices_str = ""
+                 devices = room.devices
+                 if (devices & 1) == 1
+                   devices_str = devices_str + " Projector "
+                 end
+                 devices = devices >> 1
+                 if (devices & 1) == 1
+                   devices_str = devices_str + " Telephone "
+                 end
+                 devices = devices >> 1
+                 if (devices & 1) == 1
+                   devices_str = devices_str + " Television "
+                 end
+
+              %>
+              <td><%= devices_str %></td>
+              <td align="center"><%= room.location %></td>
+              <td align="center"><%= link_to 'Book', search_confirm_path(:room=> room,  :params => params)  %></td>
+            </tr>
+            <% end %>
+            <% unless @rooms_g3 == 0 %>
+            <tr>
+              <td><%= @g3_duration %></td>
+            </tr>
+        <% end %>
+            <% @rooms_g3.each do |room| %>
+                <tr>
+                  <td align="center"><%= room.roomnum %></td>
+                  <td align="center"><%= room.name %></td>
+                  <td align="center"><%= room.cname %></td>
+                  <td align="center"><%= room.capacity %></td>
+                  <%
+                     devices_str = ""
+                     devices = room.devices
+                     if (devices & 1) == 1
+                       devices_str = devices_str + " Projector "
+                     end
+                     devices = devices >> 1
+                     if (devices & 1) == 1
+                       devices_str = devices_str + " Telephone "
+                     end
+                     devices = devices >> 1
+                     if (devices & 1) == 1
+                       devices_str = devices_str + " Television "
+                     end
+
+                  %>
+                  <td><%= devices_str %></td>
+                  <td align="center"><%= room.location %></td>
+                  <td align="center"><%= link_to 'Book', search_confirm_path(:room=> room,  :params => params)  %></td>
+                </tr>
+        </tbody>
+    <% end %>
+    </table>
+
+</fieldset>

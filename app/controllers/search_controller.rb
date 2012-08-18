@@ -154,4 +154,42 @@ class SearchController < ApplicationController
 
   end
 
+  # to list the free room right now
+  # to list the free room in following hours
+  # to list the free room today
+  def goodluck
+
+    start_date = Date.new
+    end_date = Date.new
+
+    start_time = format_time(Time.now)
+    end_time_1 = start_time + one_hour
+    end_time_2 = start_time + one_hour * 1.5
+    end_time_3 = start_time + one_hour * 2
+
+    devices = 0
+    capacity = nil
+    recurring_days = []
+
+    booking = Booking.new
+    booking.startdate = start_date
+    booking.enddate = end_date
+    booking.starttime = start_time
+    booking.endtime = end_time_1
+
+    rooms_1 = get_available_rooms(booking, devices, capacity, recurring_days)
+    booking.endtime = end_time_2
+    rooms_2 = get_available_rooms(booking, devices, capacity, recurring_days)
+    booking.endtime = end_time_3
+    rooms_3 = get_available_rooms(booking, devices, capacity, recurring_days)
+
+    @g1_duration = "#{start_time} to #{end_time_1}"
+    @g2_duration = "#{start_time} to #{end_time_2}"
+    @g3_duration = "#{start_time} to #{end_time_3}"
+    @rooms_g1 = rooms_1 - rooms_2
+    @rooms_g2 = rooms_2 - rooms_3
+    @rooms_g3 = rooms_3
+
+  end
+
 end

@@ -31,4 +31,20 @@ module CommonHelper
     options << ['Maybe Longer', 240]
   end
 
+  # to get the next hour or hour-30mins
+  def format_time(time)
+    hour = time.hour
+    min = time.min
+    if min >= 30
+      hour += 1
+      min = 0
+    else
+      min = 30
+    end
+
+    d = Time.now
+    Time.new(d.year,d.month,d.day,hour,min,0)
+
+  end
+
 end
