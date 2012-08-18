@@ -1,10 +1,12 @@
 class RoomsController < ApplicationController
 
   include RoomsHelper
+  include CommonHelper
 
   # To change this template use File | Settings | File Templates.
   def index
     @rooms = Room.all.sort { |a,b| a.capacity <=> b.capacity }
+    @duration_options = duration_options
 
     respond_to do |format|
       format.html

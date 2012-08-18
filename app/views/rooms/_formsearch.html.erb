@@ -24,9 +24,9 @@
       <%= time_select :booking, "starttime" ,{:minute_step => 30}, :id => "search_select_start_time" %>
       </div>
 
-      <label class="control-label" for="endtime">End Time</label>
+      <label class="control-label" for="endtime">Duration</label>
        <div class="controls">
-      <%= time_select :booking, "endtime" ,{:minute_step => 30}, :id => "search_select_end_time" %>
+      <%= select_tag :endtime, options_for_select(@duration_options) %>
       </div>
      </div>
       <div class="control-group">

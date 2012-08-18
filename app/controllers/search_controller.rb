@@ -1,6 +1,7 @@
 class SearchController < ApplicationController
 
   include SearchHelper
+  include CommonHelper
 
   def search
     @booking = Booking.new
@@ -23,6 +24,8 @@ class SearchController < ApplicationController
 
     @required_booking.startdate = Date.strptime(start_date_str,"%m/%d/%Y")
     @required_booking.enddate = Date.strptime(end_date_str,"%m/%d/%Y")
+
+    @required_booking.endtime = @required_booking.starttime + n_min(params[:endtime])
 
     # device requirements
 
@@ -91,6 +94,7 @@ class SearchController < ApplicationController
   def confirm
 
     @booking = Booking.new params[:booking]
+    @booking.endtime = @booking.starttime + n_min(params[:endtime])
 
     @room = Room.find(params[:room])
     #@room_name = build_room_details room

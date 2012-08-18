@@ -4,7 +4,7 @@ class BookingsController < ApplicationController
   include BookingsHelper
   include RoomsHelper
   include UsersHelper
-
+  include CommonHelper
 
 
 
@@ -50,7 +50,7 @@ class BookingsController < ApplicationController
   def new
     @booking = Booking.new
     @room = Room.find(params[:roomid])
-
+    @duration_options = duration_options
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @booking }
@@ -114,6 +114,7 @@ class BookingsController < ApplicationController
 
     @booking.startdate = Date.strptime(params[:new_booking_start_date], "%m/%d/%Y");
     @booking.enddate = Date.strptime(params[:new_booking_end_date],"%m/%d/%Y");
+    @booking.endtime = @booking.starttime + n_min(params[:endtime])
 
     # check the invitees is good formatted
     if !check_invitees(params[:invitees])
