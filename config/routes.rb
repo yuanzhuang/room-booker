@@ -22,7 +22,7 @@ RoomBooker::Application.routes.draw do
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
   resources :bookings, :except=>[:index]
-  resources :rooms, :except=>[ :edit, :destroy, :update ]
+  resources :rooms #:except=>[ :edit, :destroy, :update ]
 
   match 'search' => 'search#search'
   match 'search/result' => 'search#result'
