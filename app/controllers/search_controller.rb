@@ -154,6 +154,70 @@ class SearchController < ApplicationController
 
   end
 
+  def confirmmm
+
+    @booking = Booking.new
+    @booking.starttime = params[:starttime]
+    @booking.endtime = @booking.starttime + n_min(params[:endtime])
+
+    @room = Room.find(params[:room])
+    #@room_name = build_room_details room
+    @room_name = @room.name
+
+    @recurring = params[:recurring]
+
+    @devices_requirement = 0
+
+    if !params[:projector].nil?
+      @devices_requirement |= 1
+    end
+
+    if !params[:telephone].nil?
+      @devices_requirement |= 2
+    end
+
+
+    # more recurring day information
+    @recurring_days = Array.new
+
+    if !params[:recurringday1].nil?
+      @recurring_days <<  0
+    end
+
+    if !params[:recurringday2].nil?
+      @recurring_days << 1
+    end
+
+    if !params[:recurringday3].nil?
+      @recurring_days << 2
+    end
+
+    if !params[:recurringday4].nil?
+      @recurring_days << 3
+    end
+
+    if !params[:recurringday5].nil?
+      @recurring_days << 4
+    end
+
+    if !params[:recurringday6].nil?
+      @recurring_days << 5
+    end
+
+    if !params[:recurringday7].nil?
+      @recurring_days << 6
+    end
+
+    @confirm_start_date = params[:startdate]
+    @confirm_end_date = params[:enddate]
+
+    respond_to do |format|
+      format.html
+      format.json {render :xml => @booking }
+    end
+
+  end
+
   # to list the free room right now
   # to list the free room in following hours
   # to list the free room today
@@ -189,7 +253,9 @@ class SearchController < ApplicationController
     @rooms_g1 = rooms_1 - rooms_2
     @rooms_g2 = rooms_2 - rooms_3
     @rooms_g3 = rooms_3
-
+    @params_1 = build_params(booking,devices,capacity,recurring_days, 60)
+    @params_2 = build_params(booking,devices,capacity,recurring_days, 90)
+    @params_3 = build_params(booking,devices,capacity,recurring_days, 120)
   end
 
 end

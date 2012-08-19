@@ -73,7 +73,7 @@ module BookingsHelper
       newbooking.enddate = booking.enddate
       newbooking.starttime = booking.starttime
       newbooking.endtime = booking.endtime
-
+      newbooking.guid = booking.guid
       bookings << newbooking
     end
 

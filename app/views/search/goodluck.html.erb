@@ -15,6 +15,12 @@
     </thred>
 
     <tbody>
+    <%
+       params_1 = @params_1
+       params_2 = @params_2
+       params_3 = @params_3
+    %>
+
     <% unless @rooms_g1.size == 0 %>
     <tr>
       <td><%= @g1_duration %></td>
@@ -44,7 +50,7 @@
           %>
           <td><%= devices_str %></td>
           <td align="center"><%= room.location %></td>
-          <td align="center"><%= link_to 'Book', search_confirm_path(:room=> room,  :params => params)  %></td>
+          <td align="center"><%= link_to 'Book', search_confirm_path(:room=> room,  :params => params_1)  %></td>
         </tr>
         <% end %>
         <% unless @rooms_g2.size == 0 %>
@@ -76,7 +82,7 @@
               %>
               <td><%= devices_str %></td>
               <td align="center"><%= room.location %></td>
-              <td align="center"><%= link_to 'Book', search_confirm_path(:room=> room,  :params => params)  %></td>
+              <td align="center"><%= link_to 'Book', search_confirm_path(:room=> room,  :params => params_2)  %></td>
             </tr>
             <% end %>
             <% unless @rooms_g3 == 0 %>
@@ -108,7 +114,7 @@
                   %>
                   <td><%= devices_str %></td>
                   <td align="center"><%= room.location %></td>
-                  <td align="center"><%= link_to 'Book', search_confirm_path(:room=> room,  :params => params)  %></td>
+                  <td align="center"><%= link_to 'Book', search_confirmmm_path(:room=> room,  :params => params_3)  %></td>
                 </tr>
         </tbody>
     <% end %>

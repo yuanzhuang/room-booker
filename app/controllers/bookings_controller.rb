@@ -206,9 +206,19 @@ class BookingsController < ApplicationController
   def update
 
     @booking = Booking.find(params[:id])
-    @booking.startdate = params[:edit_booking_start_date]
-    @booking.enddate = params[:edit_booking_end_date]
 
+    @booking.startdate = params[:edit_booking_start_date] unless params[:edit_booking_start_date].nil?
+    @booking.enddate = params[:edit_booking_end_date] unless params[:edit_booking_end_date].nil?
+
+    @booking.startdate = DateTime.strptime(params[:booking_start_date],"%m/%d/%Y") unless params[:booking_start_date].nil?
+    @booking.enddate = DateTime.strptime(params[:booking_end_date], "%m/%d/%Y") unless params[:booking_end_date].nil?
+
+    puts "====================================================="
+    puts params[:booking_start_date]
+    puts params[:booking_end_date]
+    puts @booking.startdate
+    puts @booking.enddate
+    puts "====================================================="
 
     @room = Room.find_by_id(@booking.room_id)
 
@@ -247,11 +257,11 @@ class BookingsController < ApplicationController
 
     @booking.recurringbits = updated_recurringbits
 
+
     if conflict_booking = check_conflicts(@booking, recurringdays)
       redirect_to :action=>"conflict", :controller=>"error_handler", :id=> conflict_booking.id, notice: "Conflict checking."
       return
     end
-
     respond_to do |format|
       if @booking.update_attributes(params[:booking].merge!({:summary=>params[:summary],:description=>params[:description],:invitees=>params[:invitees],:recurring=>params[:recurring], :recurringbits => updated_recurringbits}))
         access_ip = request.remote_ip

@@ -79,4 +79,17 @@ module SearchHelper
     return room_desc
   end
 
+  def build_params(booking,devices,capacity, recurring_days, n)
+    today = DateTime.now.strftime("%m/%d/%Y")
+    {
+      :starttime => booking.starttime,
+      :endtime => n.to_s,
+      :devices => devices,
+      :capacity => capacity,
+      :startdate => today,
+      :enddate => today
+    }
+
+  end
+
 end
