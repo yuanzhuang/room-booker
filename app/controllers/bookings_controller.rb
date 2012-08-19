@@ -114,7 +114,11 @@ class BookingsController < ApplicationController
 
     @booking.startdate = Date.strptime(params[:new_booking_start_date], "%m/%d/%Y");
     @booking.enddate = Date.strptime(params[:new_booking_end_date],"%m/%d/%Y");
-    @booking.endtime = @booking.starttime + n_min(params[:endtime])
+
+    unless params[:endtime].nil?
+      @booking.endtime = @booking.starttime + n_min(params[:endtime])
+    end
+
 
     # check the invitees is good formatted
     if !check_invitees(params[:invitees])

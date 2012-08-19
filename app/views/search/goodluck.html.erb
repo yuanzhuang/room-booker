@@ -50,7 +50,7 @@
           %>
           <td><%= devices_str %></td>
           <td align="center"><%= room.location %></td>
-          <td align="center"><%= link_to 'Book', search_confirm_path(:room=> room,  :params => params_1)  %></td>
+          <td align="center"><%= link_to 'Book', search_confirmmm_path(:room=> room,  :params => params_1)  %></td>
         </tr>
         <% end %>
         <% unless @rooms_g2.size == 0 %>
@@ -82,7 +82,7 @@
               %>
               <td><%= devices_str %></td>
               <td align="center"><%= room.location %></td>
-              <td align="center"><%= link_to 'Book', search_confirm_path(:room=> room,  :params => params_2)  %></td>
+              <td align="center"><%= link_to 'Book', search_confirmmm_path(:room=> room,  :params => params_2)  %></td>
             </tr>
             <% end %>
             <% unless @rooms_g3 == 0 %>
