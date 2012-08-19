@@ -4,11 +4,16 @@ module ReportHelper
   #
   def generate_statistic(source)
     start_time = Time.now
+    clear_old_statistic
     room_usage_statistic
     other_statistic
     end_time = Time.now
     duration = end_time - start_time
     statistic_logging(duration, source)
+  end
+
+  def clear_old_statistic
+    StatisticLog.delete_all
   end
 
   def need_new_statistic(last_statistic_time)
